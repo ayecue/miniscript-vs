@@ -1,7 +1,7 @@
 {
     "name": "miniscript-vs",
     "displayName": "MiniScript VS",
-    "description": "Toolkit for miniscript.",
+    "description": "Toolkit for MiniScript.",
     "publisher": "ayecue",
     "author": {
         "name": "ayecue",
@@ -55,7 +55,7 @@
         "compile:ts": "tsc -p ./",
         "compile:node": "rollup --config rollup.config.node.js --bundleConfigAsCjs",
         "compile:browser": "rollup --config rollup.config.browser.js --bundleConfigAsCjs",
-        "compile:extension": "vsce package --out extension.vsix --baseContentUrl /",
+        "compile:extension": "vsce package --out extension.vsix",
         "move": "npm run move:grammar",
         "move:grammar": "cp -r node_modules/miniscript-textmate/dist/*.json ./",
         "lint": "eslint ./src/**/*.ts",
