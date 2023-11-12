@@ -132,7 +132,7 @@ Dependencies will be dynamically loaded into the execution without any limitatio
 
 This extension supports the injection of environment variables while executing code. The environment variables can be configured by using the extension settings.
 
-Here is an [example](/example/environment-variables) of environment variable injection.
+Here is an [example](https://github.com/ayecue/miniscript-vs/blob/main/example/environment-variables) of environment variable injection.
 
 ### Debugger
 
