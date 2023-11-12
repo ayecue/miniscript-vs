@@ -1,0 +1,15 @@
+.DS_Store
+node_modules
+out
+test.src
+node_modules
+extension.browser.js
+extension.js
+*.vsix
+api.view.css
+api.view.js
+.vscode-test-web
+miniscript.theme.json
+miniscript.tmLanguage.json
+miniscriptLanguageConfig.json
+system.pem
