@@ -90,7 +90,7 @@ Here is an [example](https://github.com/ayecue/miniscript-vs/blob/main/example/e
 
 Keep in mind that the following syntax is not valid in MiniScript. The transpiler can be used to transform code into valid MiniScript.
 
-### No trailing comma is required in maps or lists
+##### No trailing comma is required in maps or lists
 ```
 myList = [
 	false,
@@ -106,7 +106,7 @@ myMap = {
 }
 ```
 
-### Block comment
+##### Block comment
 ```
 /*
 	My block comment
