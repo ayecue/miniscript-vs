@@ -55,7 +55,7 @@
         "compile:ts": "tsc -p ./",
         "compile:node": "rollup --config rollup.config.node.js --bundleConfigAsCjs",
         "compile:browser": "rollup --config rollup.config.browser.js --bundleConfigAsCjs",
-        "compile:extension": "vsce package --out extension.vsix",
+        "compile:extension": "vsce package --out extension.vsix --baseContentUrl /",
         "move": "npm run move:grammar",
         "move:grammar": "cp -r node_modules/miniscript-textmate/dist/*.json ./",
         "lint": "eslint ./src/**/*.ts",
@@ -320,13 +320,6 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Allow special characters when uglifying."
-                },
-                "miniscript.installer": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Generate installer when building.",
-                    "when": "!isWeb",
-                    "scope": "resource"
                 }
             }
         },
@@ -388,12 +381,15 @@
         "@vscode/debugadapter": "^1.51.1",
         "@vscode/debugprotocol": "^1.51.0",
         "another-ansi": "^1.0.2",
+        "ansi-escapes": "^4.3.2",
+        "greybel-core": "~1.3.0",
         "greybel-interpreter": "~3.3.0",
         "greybel-ms-intrinsics": "~0.1.0",
         "greybel-transpiler": "~2.3.0",
-        "greybel-core": "~1.3.0",
+        "lru-cache": "^7.14.1",
         "miniscript-meta": "~0.3.1",
-        "miniscript-textmate": "~0.2.0"
+        "miniscript-textmate": "~0.2.0",
+        "text-encoder-lite": "^2.0.0"
     },
     "browserslist": "> 0.25%, not dead"
 }

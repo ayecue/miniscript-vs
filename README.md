@@ -24,7 +24,6 @@ Do not forget to set up your plugin to your needs. The following settings are av
 - Activate/Deactivate
     - Autocomplete
     - Hoverdocs
-    - Installer
 - Transpiler specific
     - Build type
     - Disable literals optimization
