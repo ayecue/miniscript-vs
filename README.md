@@ -68,7 +68,7 @@ Used to import exported namespaces from a file. Features of this import function
 - only gets imported once regardless of how many times it got imported
 - only exports what you want
 
-You can take a look at the [example code](/example/import) to get a better idea of how to use this feature.
+You can take a look at the [example code](https://github.com/ayecue/miniscript-vs/blob/main/example/import) to get a better idea of how to use this feature.
 
 ##### Include
 
@@ -78,13 +78,13 @@ Used to import the content of a file. Features of this import functionality:
 - will pollute global scope
 - will include the content of a file every time, which may cause redundant code
 
-To get a better idea you can take a look at the following [example code](/example/include).
+To get a better idea you can take a look at the following [example code](https://github.com/ayecue/miniscript-vs/blob/main/example/include).
 
 #### Environment Variables (Transpiler)
 
 This extension supports the injection of environment variables while transpiling. The environment variables can be configured by using the extension settings.
 
-Here is an [example](/example/environment-variables) of environment variable injection.
+Here is an [example](https://github.com/ayecue/miniscript-vs/blob/main/example/environment-variables) of environment variable injection.
 
 #### Syntax
 
