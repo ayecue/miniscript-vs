@@ -2,7 +2,7 @@
 
 Toolkit for [MiniScript](https://miniscript.org/). Includes highlighting, code execution, bundling and minifying among other features. Check out the [changelog](https://github.com/ayecue/miniscript-vs/blob/main/CHANGELOG.md) to get information about the latest changes.
 
-Ported over from [miniscript-vs](https://github.com/ayecue/miniscript-vs).
+Ported over from [greybel-vs](https://github.com/ayecue/greybel-vs).
 
 ## Usage
 
@@ -50,16 +50,9 @@ Do not forget to set up your plugin to your needs. The following settings are av
     - [Symbol](#symbol-provider)
     - [Definition](#definition-provider)
 
-### Transform
-
-Transforms the content of the active text document into one of three possible output types:
-- Default (active by default): Minor optimizations
-- Uglify: Minified
-- Beautify: Beautified
-
 ### Build
 
-Transforms and bundles your files. As described in the [transform section](#transform) it has three possible transformation types and supports environment variables as well.
+Transforms and bundles your files. It has three possible transformation types (Default, Uglify and Beautify) and supports environment variables as well.
 
 #### Dependency Management (Transpiler)
 
@@ -121,6 +114,10 @@ myMap = {
 */
 print("test")
 ```
+
+### Transform
+
+Transform is pretty much a simplified [build](#build). It will only transform the file at hand and ignore any imports.
 
 ### Interpreter
 
