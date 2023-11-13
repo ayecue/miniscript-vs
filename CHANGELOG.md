@@ -13,3 +13,9 @@ All notable changes to this project will be documented in this file.
 ## [0.1.2] - 13-11-2023
 
 - add missing time intrinsic
+
+## [0.2.0] - 14-11-2023
+
+- add %= and ^= operators
+- support else after return in single-line if
+- support multiline comparisons
