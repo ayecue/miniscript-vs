@@ -21,7 +21,7 @@ All notable changes to this project will be documented in this file.
 - support multiline comparisons
 - fix issue with call statement without parentheses and first negative arg
 
-## [0.3.0] - 14-11-2023
+## [0.3.0] - 15-11-2023
 
 - add missing meta info for pull on maps
 - fix numeric logical expression
