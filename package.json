@@ -387,7 +387,7 @@
         "greybel-ms-intrinsics": "~0.2.3",
         "greybel-transpiler": "~2.4.2",
         "lru-cache": "^7.14.1",
-        "miniscript-meta": "~0.3.2",
+        "miniscript-meta": "~0.3.3",
         "miniscript-textmate": "~0.2.0",
         "text-encoder-lite": "^2.0.0"
     },
