@@ -24,3 +24,11 @@ All notable changes to this project will be documented in this file.
 ## [0.3.0] - 14-11-2023
 
 - add missing meta info for pull on maps
+- fix numeric logical expression
+- fix failing cases for hasIndex and indexOf (test suite)
+- fix failing cases for insert (test suite)
+- fix failing cases for remove (test suite)
+- fix failing cases for split (test suite)
+- fix failing cases for round (test suite)
+- fix failing cases for pop (test suite)
+- fix failing cases for sort (test suite)
