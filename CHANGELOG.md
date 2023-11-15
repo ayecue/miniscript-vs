@@ -34,3 +34,8 @@ All notable changes to this project will be documented in this file.
 - fix failing cases for sort (test suite)
 - change hashing and deep equal approach
 - fix failing cases for replace (test suite)
+
+## [0.3.1] - 15-11-2023
+
+- fix meta map pull signature
+- remove specific greyscript type logic
