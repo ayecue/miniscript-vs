@@ -193,6 +193,10 @@
                 "extensions": [
                     ".ms"
                 ],
+                "icon": {
+                    "light": "./icon.png",
+                    "dark": "./icon.png"
+                },
                 "configuration": "./miniscriptLanguageConfig.json"
             }
         ],
