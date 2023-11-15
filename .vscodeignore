@@ -17,3 +17,4 @@ tsconfig.json
 package-lock.json
 assets
 node_modules
+example
