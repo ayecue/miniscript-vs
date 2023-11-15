@@ -40,3 +40,7 @@ All notable changes to this project will be documented in this file.
 - fix meta map pull signature
 - remove specific greyscript type logic
 - include file icon - thanks for the suggestion to [@juh9870](https://github.com/juh9870) - related to [#5](https://github.com/ayecue/miniscript-vs/issues/5)
+
+## [0.3.2] - 16.11.2023
+
+- fix failure when sortKey was not existing
