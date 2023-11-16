@@ -44,3 +44,4 @@ All notable changes to this project will be documented in this file.
 ## [0.3.2] - 16.11.2023
 
 - fix failure when sortKey was not existing
+- support detection of all single line comments above function declaration
