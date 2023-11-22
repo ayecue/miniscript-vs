@@ -50,3 +50,7 @@ All notable changes to this project will be documented in this file.
 
 - replacing recursive interpreter with bytecode generator + vm to improve performance
 - due to the new interpreter the stacktrace should be more accurate - thanks for reporting to [@Olipro](https://github.com/Olipro) - related to [#109](https://github.com/ayecue/greybel-vs/issues/109)
+
+## [0.4.1] - 23.11.2023
+
+- pass debug mode to interpreter when using "debug file"

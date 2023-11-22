@@ -176,6 +176,7 @@ export class GreybelDebugSession
   ): Promise<void> {
     const me = this;
 
+    me._runtime.debugMode = !args.noDebug;
     me._runtime.setTarget(args.program);
     me._runtime.setDebugger(
       args.noDebug ? new GrebyelPseudoDebugger() : new GrebyelDebugger(me)
