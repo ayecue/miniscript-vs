@@ -54,3 +54,7 @@ All notable changes to this project will be documented in this file.
 ## [0.4.1] - 23.11.2023
 
 - pass debug mode to interpreter when using "debug file"
+
+## [0.4.2] - 23.11.2023
+
+- fix error message popup when instruction is internal
