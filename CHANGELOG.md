@@ -62,3 +62,4 @@ All notable changes to this project will be documented in this file.
 ## [0.4.3] - 24.11.2023
 
 - fix prepare error on execute not showing line
+- do not allow frame pop on global frame
