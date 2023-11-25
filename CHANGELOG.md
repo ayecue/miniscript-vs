@@ -58,3 +58,8 @@ All notable changes to this project will be documented in this file.
 ## [0.4.2] - 23.11.2023
 
 - fix error message popup when instruction is internal
+
+## [0.4.3] - 24.11.2023
+
+- fix prepare error on execute not showing line
+- do not allow frame pop on global frame
