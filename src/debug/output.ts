@@ -1,9 +1,4 @@
-import {
-  KeyEvent,
-  VM,
-  OutputHandler,
-  PrintOptions
-} from 'greybel-interpreter';
+import { KeyEvent, OutputHandler, PrintOptions, VM } from 'greybel-interpreter';
 
 import PseudoTerminal from '../helper/pseudo-terminal';
 import transformStringToKeyEvent from '../helper/transform-string-to-key-event';
@@ -90,10 +85,7 @@ export class VSOutputHandler extends OutputHandler {
     return PseudoTerminal.getActiveTerminal().waitForInput(vm, isPassword);
   }
 
-  waitForKeyPress(
-    vm: VM,
-    message: string
-  ): PromiseLike<KeyEvent> {
+  waitForKeyPress(vm: VM, message: string): PromiseLike<KeyEvent> {
     this.print(vm, message, {
       appendNewLine: false
     });
