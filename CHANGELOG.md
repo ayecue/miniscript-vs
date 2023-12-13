@@ -76,3 +76,4 @@ All notable changes to this project will be documented in this file.
 
 - use dot as resolve trigger for autocompletion handler + minor adjustments
 - transform several text editor commands into normal commands
+- update meta to improve autocomplete
