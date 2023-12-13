@@ -71,3 +71,9 @@ All notable changes to this project will be documented in this file.
 ## [0.4.5] - 30.11.2023
 
 - fix self not being reassignable within frame
+
+## [0.4.6] - 13.12.2023
+
+- use dot as resolve trigger for autocompletion handler + minor adjustments
+- transform several text editor commands into normal commands
+- update meta to improve autocomplete
