@@ -8,7 +8,7 @@
         "email": "soerenwehmeier@googlemail.com"
     },
     "icon": "icon.png",
-    "version": "0.4.6",
+    "version": "0.4.7",
     "repository": {
         "type": "git",
         "url": "git@github.com:ayecue/miniscript-vs.git"
@@ -149,19 +149,19 @@
                 },
                 {
                     "command": "miniscript.transform.clipboard",
-                    "when": "resourceLangId == miniscript"
+                    "when": "false"
                 },
                 {
                     "command": "miniscript.transform.write",
-                    "when": "resourceLangId == miniscript"
+                    "when": "false"
                 },
                 {
                     "command": "miniscript.minify.write",
-                    "when": "resourceLangId == miniscript"
+                    "when": "false"
                 },
                 {
                     "command": "miniscript.beautify.write",
-                    "when": "resourceLangId == miniscript"
+                    "when": "false"
                 },
                 {
                     "command": "miniscript.build",
@@ -169,7 +169,7 @@
                 },
                 {
                     "command": "miniscript.gotoError",
-                    "when": "resourceLangId == miniscript"
+                    "when": "false"
                 },
                 {
                     "command": "miniscript.refresh",
