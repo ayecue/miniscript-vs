@@ -77,3 +77,8 @@ All notable changes to this project will be documented in this file.
 - use dot as resolve trigger for autocompletion handler + minor adjustments
 - transform several text editor commands into normal commands
 - update meta to improve autocomplete
+
+## [0.4.7] - 14.12.2023
+
+- use active document for build and refresh if there is no event uri available
+- make gotoError and transforms invisible in command palette since those require the context of an editor
