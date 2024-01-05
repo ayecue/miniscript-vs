@@ -83,3 +83,4 @@ All notable changes to this project will be documented in this file.
 - use active document for build and refresh if there is no event uri available
 - make gotoError and transforms invisible in command palette since those require the context of an editor
 - add pointer for current active instruction for stacktrace
+- while minimizing check if hasIndex value exists in namespaces otherwise falls back to not otimized value
