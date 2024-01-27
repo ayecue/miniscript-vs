@@ -81,6 +81,11 @@ All notable changes to this project will be documented in this file.
 ## [0.4.7] - 14.12.2023
 
 - use active document for build and refresh if there is no event uri available
+
+## [0.4.8] - 27.01.2024
+
 - make gotoError and transforms invisible in command palette since those require the context of an editor
 - add pointer for current active instruction for stacktrace
 - while minimizing check if hasIndex value exists in namespaces otherwise falls back to not otimized value
+- fix index expression to replicate [#89](https://github.com/JoeStrout/miniscript/issues/89) behavior of MiniScript
+- add frame limit to interpreter to prevent crashing VSCode due to infinite recursion caused by a script
