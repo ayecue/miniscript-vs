@@ -1,4 +1,4 @@
-import { KeyEvent, OutputHandler, PrintOptions, VM } from 'greybel-interpreter';
+import { KeyEvent, OutputHandler, PrintOptions, UpdateOptions, VM } from 'greybel-interpreter';
 
 import PseudoTerminal from '../helper/pseudo-terminal';
 import transformStringToKeyEvent from '../helper/transform-string-to-key-event';
@@ -28,6 +28,21 @@ export class VSOutputHandler extends OutputHandler {
 
     if (replace) {
       this._terminal.replace(transformed);
+      return;
+    }
+
+    this._terminal.print(transformed, appendNewLine);
+  }
+
+  update(
+    _vm: VM,
+    message: string,
+    { appendNewLine = true, replace = false }: Partial<UpdateOptions> = {}
+  ) {
+    const transformed = message.replace(/\\n/g, '\n');
+
+    if (replace) {
+      this._terminal.updateLast(transformed);
       return;
     }
 

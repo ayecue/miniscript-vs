@@ -10,11 +10,6 @@ Automatically detects `.ms` files.
 
 Commands available (`CTRL+SHIFT+P`):
 - `MiniScript: Build` - [info](#build)
-- `MiniScript: Goto Error` - [info](#goto-error)
-- `MiniScript: Transform to clipboard` - [info](#transform)
-- `MiniScript: Transform` - [info](#transform)
-- `MiniScript: Minify` - Shortcut for [info](#transform). Will use minify as build type.
-- `MiniScript: Beautify` - Shortcut for [info](#transform). Will use beautify as build type.
 - `MiniScript: Refresh` - [info](#refresh)
 
 You can also access most of the commands via the context menu.
