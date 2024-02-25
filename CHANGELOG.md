@@ -89,3 +89,11 @@ All notable changes to this project will be documented in this file.
 - while minimizing check if hasIndex value exists in namespaces otherwise falls back to not otimized value
 - fix index expression to replicate [#89](https://github.com/JoeStrout/miniscript/issues/89) behavior of MiniScript
 - add frame limit to interpreter to prevent crashing VSCode due to infinite recursion caused by a script
+
+## [0.4.9] - 19.02.2024
+
+- allow super being reassigned
+- fix super not using proper origin when calling a function of parent
+- set super to null if there is no parent class
+- improve parser recovery from invalid syntax
+- use backpatching to enable similar MiniScript parsing of blocks
