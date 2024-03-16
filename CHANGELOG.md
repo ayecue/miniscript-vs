@@ -97,3 +97,8 @@ All notable changes to this project will be documented in this file.
 - set super to null if there is no parent class
 - improve parser recovery from invalid syntax
 - use backpatching to enable similar MiniScript parsing of blocks
+
+## [0.4.10] - 16.03.2024
+
+- fix certain cases of open blocks causing errors in unsafe parsing mode
+- add #file and #line keyword for debugging
