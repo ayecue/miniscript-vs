@@ -1,4 +1,10 @@
-import { KeyEvent, OutputHandler, PrintOptions, UpdateOptions, VM } from 'greybel-interpreter';
+import {
+  KeyEvent,
+  OutputHandler,
+  PrintOptions,
+  UpdateOptions,
+  VM
+} from 'greybel-interpreter';
 
 import PseudoTerminal from '../helper/pseudo-terminal';
 import transformStringToKeyEvent from '../helper/transform-string-to-key-event';
