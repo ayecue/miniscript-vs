@@ -102,3 +102,8 @@ All notable changes to this project will be documented in this file.
 
 - fix certain cases of open blocks causing errors in unsafe parsing mode
 - add #file and #line keyword for debugging
+
+## [0.4.11] - 04.02.2024
+
+- add NaN check for numeric literal scan in order to show syntax errors on invalid numbers
+- include lexer exceptions in diagnostics
