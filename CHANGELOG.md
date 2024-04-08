@@ -103,7 +103,13 @@ All notable changes to this project will be documented in this file.
 - fix certain cases of open blocks causing errors in unsafe parsing mode
 - add #file and #line keyword for debugging
 
-## [0.4.11] - 04.02.2024
+## [0.4.11] - 02.04.2024
 
 - add NaN check for numeric literal scan in order to show syntax errors on invalid numbers
 - include lexer exceptions in diagnostics
+
+## [0.5.0] - 08.04.2024
+
+- ignore return statement when it's not within function scope
+- still execute method which is called in return statement within global scope
+- major improvement of interpreter in regards of performance by rewriting and optimizing parts of the bytecode-generator, internal hash-map, hashing and more
