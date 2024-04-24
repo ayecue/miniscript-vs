@@ -115,6 +115,6 @@ All notable changes to this project will be documented in this file.
 - major improvement of interpreter in regards of performance by rewriting and optimizing parts of the bytecode-generator, internal hash-map, hashing and more
 - fix parsing of add sub expression while being a command
 
-## [0.5.1] - 24.04.2024
+## [0.5.1] - 25.04.2024
 
 - fix bytecode generator source assignment which caused the interpreter to show the wrong file when using imports
