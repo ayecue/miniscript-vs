@@ -118,3 +118,9 @@ All notable changes to this project will be documented in this file.
 ## [0.5.1] - 25.04.2024
 
 - fix bytecode generator source assignment which caused the interpreter to show the wrong file when using imports
+
+## [0.5.2] - 27.05.2024
+
+- update rnd method to only return the first generated value of a seed and not continuously generate new values of one seed to properly resemble the original MiniScript behaviour
+- fix behaviour of val intrinsic, properly parse strings which have commas prior to dot
+- fix lexer which could for certain character under certain conditions cause inifinite loops
