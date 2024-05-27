@@ -122,3 +122,5 @@ All notable changes to this project will be documented in this file.
 ## [0.5.2] - 22.05.2024
 
 - update rnd method to only return the first generated value of a seed and not continuously generate new values of one seed to properly resemble the original MiniScript behaviour
+- fix behaviour of val intrinsic, properly parse strings which have commas prior to dot
+- fix lexer which could for certain character under certain conditions cause inifinite loops
