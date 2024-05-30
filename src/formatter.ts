@@ -6,12 +6,24 @@ import vscode, {
 } from 'vscode';
 
 export function activate(context: ExtensionContext) {
-  vscode.languages.registerDocumentFormattingEditProvider('miniscript', {
-    provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
-      const result = new DirectTranspiler({
-        code: document.getText(),
+  function tryFormat(content: string): string | null {
+    try {
+      return new DirectTranspiler({
+        code: content,
         buildType: BuildType.BEAUTIFY
       }).parse();
+    } catch (err) {
+      return null;
+    }
+  }
+
+  vscode.languages.registerDocumentFormattingEditProvider('miniscript', {
+    provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
+      const result = tryFormat(document.getText());
+
+      if (result === null) {
+        return [];
+      }
 
       const firstLine = document.lineAt(0);
       const lastLine = document.lineAt(
