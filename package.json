@@ -394,7 +394,7 @@
     "greybel-core": "~1.6.1",
     "greybel-interpreter": "~4.6.5",
     "greybel-ms-intrinsics": "~1.5.4",
-    "greybel-transpiler": "~2.6.2",
+    "greybel-transpiler": "~2.6.3",
     "lru-cache": "^7.14.1",
     "miniscript-meta": "~0.4.1",
     "miniscript-textmate": "~0.2.0",

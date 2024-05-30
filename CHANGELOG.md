@@ -128,3 +128,4 @@ All notable changes to this project will be documented in this file.
 ## [0.5.3] - 30.05.2024
 
 - improve beautifier formatting - related to [#4](https://github.com/ayecue/miniscript-vs/issues/4)
+- add formatter - related to [#4](https://github.com/ayecue/miniscript-vs/issues/4)
