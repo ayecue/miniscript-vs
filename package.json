@@ -398,7 +398,7 @@
     "hyperid": "^3.2.0",
     "lru-cache": "^7.14.1",
     "miniscript-meta": "~1.2.2",
-    "miniscript-textmate": "~0.2.0",
+    "miniscript-textmate": "~0.2.1",
     "text-encoder-lite": "^2.0.0"
   },
   "browserslist": "> 0.25%, not dead"
