@@ -70,8 +70,8 @@ export const getCompletionList = (
 export const getDefaultCompletionList = (typeDoc: TypeDocument): CompletionItem[] => {
   const items: CompletionItem[] = [];
 
-  for (const [property, kind] of typeDoc.getRootScopeContext().scope.getAllIdentifier()) {
-    items.push(new CompletionItem(property));
+  for (const [property, item] of typeDoc.getRootScopeContext().scope.getAllIdentifier()) {
+    items.push(new CompletionItem(property, getCompletionItemKind(item.kind)));
   }
 
   return [
@@ -96,7 +96,7 @@ export function activate(_context: ExtensionContext) {
       const typeDoc = typeManager.get(document);
       const astResult = helper.lookupAST(position);
       const completionItems: CompletionItem[] = [];
-      let base = '';
+      let isProperty = false;
 
       if (astResult) {
         const { closest } = astResult;
@@ -104,13 +104,13 @@ export function activate(_context: ExtensionContext) {
         if (
           closest instanceof ASTMemberExpression
         ) {
-          base = createExpressionId(closest.base);
           completionItems.push(...getCompletionList(helper, closest));
+          isProperty = true;
         } else if (
           closest instanceof ASTIndexExpression
         ) {
-          base = createExpressionId(closest.base);
           completionItems.push(...getCompletionList(helper, closest));
+          isProperty = true;
         } else {
           completionItems.push(...getDefaultCompletionList(typeDoc));
         }
@@ -118,7 +118,7 @@ export function activate(_context: ExtensionContext) {
         completionItems.push(...getDefaultCompletionList(typeDoc));
       }
 
-      if (!astResult) {
+      if (!astResult || isProperty) {
         return new CompletionList(completionItems);
       }
 
@@ -126,60 +126,6 @@ export function activate(_context: ExtensionContext) {
         ...completionItems.map((item) => item.label)
       ]);
       const allImports = await documentParseQueue.get(document).getImports();
-
-      // filter for existing base
-      if (base.length > 0) {
-        const baseStart = `${base}.`;
-        const basePattern = new RegExp(`^${base}\\.`);
-
-        // get all identifer available in imports
-        for (const item of allImports) {
-          const { document } = item;
-
-          if (!document) {
-            continue;
-          }
-
-          completionItems.push(
-            ...helper
-              .findAllAvailableIdentifier(document)
-              .filter(
-                (property: string) =>
-                  property.startsWith(baseStart) &&
-                  !existingProperties.has(property)
-              )
-              .map((property: string) => {
-                const remainingValue = property.replace(basePattern, '');
-                existingProperties.add(remainingValue);
-                return new CompletionItem(
-                  remainingValue,
-                  CompletionItemKind.Variable
-                );
-              })
-          );
-        }
-
-        // get all identifer available in scope
-        completionItems.push(
-          ...helper
-            .findAllAvailableIdentifierRelatedToPosition(astResult.closest)
-            .filter(
-              (property: string) =>
-                property.startsWith(baseStart) &&
-                !existingProperties.has(property)
-            )
-            .map((property: string) => {
-              const remainingValue = property.replace(basePattern, '');
-              existingProperties.add(remainingValue);
-              return new CompletionItem(
-                remainingValue,
-                CompletionItemKind.Variable
-              );
-            })
-        );
-
-        return new CompletionList(completionItems);
-      }
 
       // get all identifer available in imports
       for (const item of allImports) {
@@ -189,8 +135,10 @@ export function activate(_context: ExtensionContext) {
           continue;
         }
 
+        const importHelper = new LookupHelper(item.textDocument);
+
         completionItems.push(
-          ...helper
+          ...importHelper
             .findAllAvailableIdentifier(document)
             .filter((property: string) => !existingProperties.has(property))
             .map((property: string) => {
