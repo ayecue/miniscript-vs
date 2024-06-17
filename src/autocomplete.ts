@@ -20,52 +20,49 @@ import { AVAILABLE_OPERATORS } from './autocomplete/operators';
 import documentParseQueue from './helper/document-manager';
 import { LookupHelper } from './helper/lookup-type';
 import typeManager from './helper/type-manager';
-import { Document as TypeDocument, CompletionItemKind as EntityKind, createExpressionId } from 'miniscript-type-analyzer';
+import { CompletionItem as EntityCompletionItem, CompletionItemKind as EntityCompletionItemKind } from 'miniscript-type-analyzer';
 
-const getCompletionItemKind = (kind: EntityKind): CompletionItemKind => {
+const getCompletionItemKind = (kind: EntityCompletionItemKind): CompletionItemKind => {
   switch (kind) {
-    case EntityKind.Constant:
+    case EntityCompletionItemKind.Constant:
       return CompletionItemKind.Constant;
-    case EntityKind.Variable:
+    case EntityCompletionItemKind.Variable:
       return CompletionItemKind.Variable;
-    case EntityKind.Expression:
+    case EntityCompletionItemKind.Expression:
       return CompletionItemKind.Variable;
-    case EntityKind.Function:
+    case EntityCompletionItemKind.Function:
       return CompletionItemKind.Function;
-    case EntityKind.ListConstructor:
-    case EntityKind.MapConstructor:
-    case EntityKind.Literal:
-    case EntityKind.Unknown:
+    case EntityCompletionItemKind.ListConstructor:
+    case EntityCompletionItemKind.MapConstructor:
+    case EntityCompletionItemKind.Literal:
+    case EntityCompletionItemKind.Unknown:
       return CompletionItemKind.Value
   }
 }
 
-export const getCompletionList = (
-  helper: LookupHelper,
-  item: ASTBase
-): CompletionItem[] => {
-  const entity = helper.lookupBasePath(item);
+export const transformToCompletionItems = (identifer: Map<string, EntityCompletionItem>) => {
   const items: CompletionItem[] = [];
 
-  for (const [property, item] of entity.getAllIdentifier()) {
+  for (const [property, item] of identifer) {
     items.push(new CompletionItem(property, getCompletionItemKind(item.kind)));
   }
 
   return items;
+}
+
+export const getPropertyCompletionList = (
+  helper: LookupHelper,
+  item: ASTBase
+): CompletionItem[] => {
+  const entity = helper.lookupBasePath(item);
+  return transformToCompletionItems(entity.getAllIdentifier());
 };
 
-export const getDefaultCompletionList = (typeDoc: TypeDocument): CompletionItem[] => {
-  const items: CompletionItem[] = [];
-
-  for (const [property, item] of typeDoc.getRootScopeContext().scope.getAllIdentifier()) {
-    items.push(new CompletionItem(property, getCompletionItemKind(item.kind)));
-  }
-
+export const getDefaultCompletionList = (): CompletionItem[] => {
   return [
     ...AVAILABLE_KEYWORDS,
     ...AVAILABLE_OPERATORS,
-    ...AVAILABLE_CONSTANTS,
-    ...items
+    ...AVAILABLE_CONSTANTS
   ];
 };
 
@@ -80,7 +77,6 @@ export function activate(_context: ExtensionContext) {
       documentParseQueue.refresh(document);
 
       const helper = new LookupHelper(document);
-      const typeDoc = typeManager.get(document);
       const astResult = helper.lookupAST(position);
       const completionItems: CompletionItem[] = [];
       let isProperty = false;
@@ -91,18 +87,19 @@ export function activate(_context: ExtensionContext) {
         if (
           closest instanceof ASTMemberExpression
         ) {
-          completionItems.push(...getCompletionList(helper, closest));
+          completionItems.push(...getPropertyCompletionList(helper, closest));
           isProperty = true;
         } else if (
           closest instanceof ASTIndexExpression
         ) {
-          completionItems.push(...getCompletionList(helper, closest));
+          completionItems.push(...getPropertyCompletionList(helper, closest));
           isProperty = true;
         } else {
-          completionItems.push(...getDefaultCompletionList(typeDoc));
+          completionItems.push(...getDefaultCompletionList());
         }
       } else {
-        completionItems.push(...getDefaultCompletionList(typeDoc));
+        completionItems.push(...getDefaultCompletionList());
+        completionItems.push(...transformToCompletionItems(helper.findAllAvailableIdentifierInRoot()));
       }
 
       if (!astResult || isProperty) {
@@ -125,25 +122,21 @@ export function activate(_context: ExtensionContext) {
         const importHelper = new LookupHelper(item.textDocument);
 
         completionItems.push(
-          ...importHelper
-            .findAllAvailableIdentifier(document)
-            .filter((property: string) => !existingProperties.has(property))
-            .map((property: string) => {
-              existingProperties.add(property);
-              return new CompletionItem(property, CompletionItemKind.Variable);
+          ...transformToCompletionItems(importHelper
+            .findAllAvailableIdentifier(document))
+            .filter((item) => !existingProperties.has(item.label))
+            .map((item) => {
+              existingProperties.add(item.label);
+              return item;
             })
         );
       }
 
       // get all identifer available in scope
       completionItems.push(
-        ...helper
-          .findAllAvailableIdentifierRelatedToPosition(astResult.closest)
-          .filter((property: string) => !existingProperties.has(property))
-          .map((property: string) => {
-            existingProperties.add(property);
-            return new CompletionItem(property, CompletionItemKind.Variable);
-          })
+        ...transformToCompletionItems(helper
+          .findAllAvailableIdentifierRelatedToPosition(astResult.closest))
+          .filter((item) => !existingProperties.has(item.label))
       );
 
       return new CompletionList(completionItems);

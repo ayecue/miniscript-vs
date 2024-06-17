@@ -7,7 +7,11 @@ import {
   ASTMemberExpression,
   ASTType
 } from 'miniscript-core';
-import { Document as TypeDocument, IEntity } from 'miniscript-type-analyzer';
+import {
+  CompletionItem,
+  Document as TypeDocument,
+  IEntity
+} from 'miniscript-type-analyzer';
 import { Position, TextDocument } from 'vscode';
 
 import * as ASTScraper from './ast-scraper';
@@ -48,19 +52,27 @@ export class LookupHelper {
       .aggregator.resolveAvailableAssignments(item);
   }
 
-  findAllAvailableIdentifier(root: ASTBaseBlockWithScope): string[] {
-    return Array.from(
-      typeManager
-        .get(this.document)
-        .getScopeContext(root)
-        .scope.getAllIdentifier()
-        .keys()
-    );
+  findAllAvailableIdentifierInRoot(): Map<string, CompletionItem> {
+    return typeManager
+      .get(this.document)
+      .getRootScopeContext()
+      .scope.getAllIdentifier();
   }
 
-  findAllAvailableIdentifierRelatedToPosition(item: ASTBase): string[] {
+  findAllAvailableIdentifier(
+    root: ASTBaseBlockWithScope
+  ): Map<string, CompletionItem> {
+    return typeManager
+      .get(this.document)
+      .getScopeContext(root)
+      .scope.getAllIdentifier();
+  }
+
+  findAllAvailableIdentifierRelatedToPosition(
+    item: ASTBase
+  ): Map<string, CompletionItem> {
     const typeDoc = typeManager.get(this.document);
-    const result: string[] = [];
+    const result: Map<string, CompletionItem> = new Map();
     const assignments = Array.from(
       typeDoc
         .getScopeContext(item.scope)
@@ -79,21 +91,23 @@ export class LookupHelper {
       const assignment = assignments[index];
 
       if (assignment.line >= item.end!.line) break;
-      result.push(assignment.identifier);
+      result.set(assignment.identifier, {
+        kind: assignment.kind,
+        line: assignment.line
+      });
     }
 
     if (item.scope.scope) {
-      result.push(
-        ...Array.from(
-          typeDoc
-            .getScopeContext(item.scope.scope)
-            .scope.getAllIdentifier()
-            .keys()
-        )
-      );
+      const outerAssignments = typeDoc
+        .getScopeContext(item.scope.scope)
+        .scope.getAllIdentifier();
+
+      for (const assignment of outerAssignments) {
+        result.set(...assignment);
+      }
     }
 
-    return Array.from(new Set(result));
+    return result;
   }
 
   lookupAST(position: Position): LookupASTResult | null {

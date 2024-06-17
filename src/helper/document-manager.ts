@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import { ASTChunkAdvanced, Parser } from 'greybel-core';
 import LRU from 'lru-cache';
-import { ASTBase, ASTBaseBlockWithScope } from 'miniscript-core';
+import { ASTBaseBlockWithScope } from 'miniscript-core';
 import vscode, { TextDocument, Uri } from 'vscode';
 
 import typeManager from './type-manager';
