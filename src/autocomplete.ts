@@ -7,7 +7,6 @@ import vscode, {
   CancellationToken,
   CompletionContext,
   CompletionItem,
-  CompletionItemKind,
   CompletionList,
   ExtensionContext,
   Position,
