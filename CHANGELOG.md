@@ -130,3 +130,6 @@ All notable changes to this project will be documented in this file.
 - improve beautifier formatting - related to [#4](https://github.com/ayecue/miniscript-vs/issues/4)
 - add formatter - related to [#4](https://github.com/ayecue/miniscript-vs/issues/4)
 - fix behavior of val intrinsic on leading comma
+- add repeat keyword
+- implement new type manager which keeps better track of types and properties
+- fix and improve documentation regarding intrinsics
