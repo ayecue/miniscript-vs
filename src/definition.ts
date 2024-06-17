@@ -1,7 +1,5 @@
 import {
   ASTBaseBlockWithScope,
-  ASTIdentifier,
-  ASTIndexExpression,
   ASTMemberExpression,
   ASTBase
 } from 'miniscript-core';
@@ -16,7 +14,6 @@ import vscode, {
 
 import documentParseQueue from './helper/document-manager';
 import { LookupHelper } from './helper/lookup-type';
-import { createExpressionId } from 'miniscript-type-analyzer';
 
 const findAllDefinitions = (
   helper: LookupHelper,

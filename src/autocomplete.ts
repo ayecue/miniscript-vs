@@ -19,26 +19,8 @@ import { AVAILABLE_KEYWORDS } from './autocomplete/keywords';
 import { AVAILABLE_OPERATORS } from './autocomplete/operators';
 import documentParseQueue from './helper/document-manager';
 import { LookupHelper } from './helper/lookup-type';
-import typeManager from './helper/type-manager';
-import { CompletionItem as EntityCompletionItem, CompletionItemKind as EntityCompletionItemKind } from 'miniscript-type-analyzer';
-
-const getCompletionItemKind = (kind: EntityCompletionItemKind): CompletionItemKind => {
-  switch (kind) {
-    case EntityCompletionItemKind.Constant:
-      return CompletionItemKind.Constant;
-    case EntityCompletionItemKind.Variable:
-      return CompletionItemKind.Variable;
-    case EntityCompletionItemKind.Expression:
-      return CompletionItemKind.Variable;
-    case EntityCompletionItemKind.Function:
-      return CompletionItemKind.Function;
-    case EntityCompletionItemKind.ListConstructor:
-    case EntityCompletionItemKind.MapConstructor:
-    case EntityCompletionItemKind.Literal:
-    case EntityCompletionItemKind.Unknown:
-      return CompletionItemKind.Value
-  }
-}
+import { CompletionItem as EntityCompletionItem } from 'miniscript-type-analyzer';
+import { getCompletionItemKind } from './helper/kind';
 
 export const transformToCompletionItems = (identifer: Map<string, EntityCompletionItem>) => {
   const items: CompletionItem[] = [];

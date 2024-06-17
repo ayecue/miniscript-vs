@@ -16,10 +16,9 @@ import vscode, {
 
 import documentParseQueue from './helper/document-manager';
 import typeManager from './helper/type-manager';
-import { createExpressionId } from 'miniscript-type-analyzer';
+import { getSymbolItemKind } from './helper/kind';
 
 const findAllAssignments = (
-  root: ASTChunk,
   document: TextDocument,
   query: string
 ): SymbolInformation[] => {
@@ -29,7 +28,7 @@ const findAllAssignments = (
 
   for (const assignmentItem of assignments) {
     const assignment = assignmentItem as ASTAssignmentStatement;
-    const current = createExpressionId(assignment.variable);
+    const entity = typeDoc.resolveNamespace(assignment.variable, true);
 
     const start = new Position(
       assignment.variable.start.line - 1,
@@ -41,9 +40,9 @@ const findAllAssignments = (
     );
 
     result.push({
-      name: current,
-      containerName: current,
-      kind: SymbolKind.Variable,
+      name: entity.label,
+      containerName: entity.label,
+      kind: getSymbolItemKind(entity.kind),
       location: new Location(document.uri, new Range(start, end))
     });
   }
@@ -63,7 +62,7 @@ export function activate(_context: ExtensionContext) {
         return [];
       }
 
-      return findAllAssignments(parseResult.document as ASTChunk, document, '');
+      return findAllAssignments(document, '');
     }
   });
 
@@ -83,7 +82,6 @@ export function activate(_context: ExtensionContext) {
 
         result.push(
           ...findAllAssignments(
-            parseResult.document as ASTChunk,
             document,
             query
           )
