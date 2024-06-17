@@ -1,4 +1,3 @@
-import { ASTChunkAdvanced } from 'greybel-core';
 import {
   ASTAssignmentStatement,
   ASTBase,
@@ -95,10 +94,6 @@ export class LookupHelper {
     }
 
     return Array.from(new Set(result));
-  }
-
-  lookupScope(item: ASTBase): ASTBaseBlockWithScope | null {
-    return item.scope || null;
   }
 
   lookupAST(position: Position): LookupASTResult | null {

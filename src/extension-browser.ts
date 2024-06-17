@@ -1,6 +1,7 @@
 import vscode, { ExtensionContext } from 'vscode';
 
 import { activate as activateAutocomplete } from './autocomplete';
+import { activate as activateSignature } from './signature';
 import { activate as activateDefinition } from './definition';
 import { activate as activateDiagnostic } from './diagnostic';
 import { activate as activateHover } from './hover';
@@ -23,6 +24,7 @@ export function activate(context: ExtensionContext) {
 
   if (config.get<boolean>('autocomplete')) {
     activateAutocomplete(context);
+    activateSignature(context);
   }
 
   activateTransform(context);
