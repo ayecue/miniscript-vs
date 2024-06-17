@@ -72,8 +72,6 @@ export function activate(_context: ExtensionContext) {
 
       const entity = await helper.lookupTypeInfo(astResult);
 
-      console.log('entity', entity);
-
       if (!entity) {
         return;
       }

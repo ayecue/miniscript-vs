@@ -215,18 +215,15 @@ export class LookupHelper {
       previous?.type === ASTType.MemberExpression &&
       closest === (previous as ASTMemberExpression).identifier
     ) {
-      //console.log('test1', previous);
       return typeDoc.resolveType(previous, true);
     } else if (
       previous?.type === ASTType.IndexExpression &&
       closest === (previous as ASTIndexExpression).index &&
       closest.type === ASTType.StringLiteral
     ) {
-      //console.log('test2', previous);
       return typeDoc.resolveType(previous, true);
     }
 
-    //console.log('test3', closest);
     return typeDoc.resolveType(closest, true);
   }
 

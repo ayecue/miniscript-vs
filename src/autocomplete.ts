@@ -202,7 +202,7 @@ export function activate(_context: ExtensionContext) {
 
         const root = helper.lookupScope(astResult.closest);
         const item = await helper.lookupTypeInfo({
-          closest: rootCallExpression,
+          closest: rootCallExpression.base,
           outer: root ? [root] : []
         });
 

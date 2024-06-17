@@ -66,10 +66,6 @@ export function activate(_context: ExtensionContext) {
 
       const { outer, closest } = astResult;
 
-      if (!(closest instanceof ASTIdentifier)) {
-        return [];
-      }
-
       const previous = outer.length > 0 ? outer[outer.length - 1] : undefined;
       let target: ASTBase = closest;
 
@@ -79,15 +75,10 @@ export function activate(_context: ExtensionContext) {
           previous.identifier === closest
         ) {
           target = previous;
-        } else if (
-          previous instanceof ASTIndexExpression &&
-          previous.index === closest
-        ) {
-          target = previous;
         }
       }
 
-      const definitions = findAllDefinitions(helper, target, closest.scope!);
+      const definitions = findAllDefinitions(helper, target, target.scope!);
       const allImports = await documentParseQueue.get(document).getImports();
 
       for (const item of allImports) {
