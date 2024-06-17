@@ -2,7 +2,6 @@ import {
   ASTFeatureImportExpression,
   ASTType as ASTTypeExtended
 } from 'greybel-core';
-import { ASTType } from 'greybel-core';
 import vscode, {
   CancellationToken,
   ExtensionContext,
@@ -12,21 +11,24 @@ import vscode, {
   TextDocument,
   Uri
 } from 'vscode';
+import {
+  SignatureDefinitionFunction,
+  SignatureDefinitionFunctionArg,
+  SignatureDefinitionTypeMeta
+} from 'meta-utils';
 
 import { LookupHelper } from './helper/lookup-type';
-import { TypeInfoWithDefinition } from './helper/type-manager';
 import { PseudoFS } from './resource';
 
-function formatType(type: string): string {
-  const segments = type.split(':');
-  if (segments.length === 1) {
-    return segments[0];
-  }
-  return `${segments[0]}<${segments[1]}>`;
+function formatTypes(types: SignatureDefinitionTypeMeta[] = []): string {
+  return types.map((item) => item.toString().replace(',', '٫')).join(' or ');
 }
 
-function formatTypes(types: string[] = []): string {
-  return types.map(formatType).join(' or ');
+function formatDefaultValue(value: number | string): string {
+  if (typeof value === 'string') {
+    return `"${value}"`;
+  }
+  return value.toString();
 }
 
 export function activate(_context: ExtensionContext) {
@@ -68,52 +70,57 @@ export function activate(_context: ExtensionContext) {
         return new Hover(hoverText);
       }
 
-      const typeInfo = await helper.lookupTypeInfo(astResult);
+      const entity = await helper.lookupTypeInfo(astResult);
 
-      if (!typeInfo) {
+      console.log('entity', entity);
+
+      if (!entity) {
         return;
       }
 
-      const hoverText = new MarkdownString('');
+      if (entity.isCallable()) {
+        const info: MarkdownString[] = [];
 
-      if (
-        typeInfo instanceof TypeInfoWithDefinition &&
-        typeInfo.type.length === 1
-      ) {
-        const defintion = typeInfo.definition;
-        const args = defintion.arguments || [];
-        const example = defintion.example || [];
-        const returnValues = formatTypes(defintion.returns) || 'null';
-        let headline;
+        for (const definition of entity.signatureDefinitions) {
+          const fnDef = definition as SignatureDefinitionFunction;
+          const hoverText = new MarkdownString('');
+          const args = fnDef.getArguments() || [];
+          const example = fnDef.getExample() || [];
+          const returnValues = formatTypes(fnDef.getReturns()) || 'null';
+          let headline;
 
-        if (args.length === 0) {
-          headline = `(${typeInfo.kind}) ${typeInfo.label} (): ${returnValues}`;
-        } else {
-          const argValues = args
-            .map(
-              (item) =>
-                `${item.label}${item.opt ? '?' : ''}: ${formatType(item.type)}${
-                  item.default ? ` = ${item.default}` : ''
-                }`
-            )
-            .join(', ');
+          if (args.length === 0) {
+            headline = `(${entity.kind}) ${entity.label} (): ${returnValues}`;
+          } else {
+            const argValues = args
+              .map(
+                (item: SignatureDefinitionFunctionArg) =>
+                  `${item.getLabel()}${item.isOptional() ? '?' : ''}: ${formatTypes(item.getTypes())}${item.getDefault() ? ` = ${formatDefaultValue(item.getDefault().value)}` : ''
+                  }`
+              )
+              .join(', ');
 
-          headline = `(${typeInfo.kind}) ${typeInfo.label} (${argValues}): ${returnValues}`;
+            headline = `(${entity.kind}) ${entity.label} (${argValues}): ${returnValues}`;
+          }
+
+          const output = ['```', headline, '```', '***', fnDef.getDescription()];
+
+          if (example.length > 0) {
+            output.push(...['#### Examples:', '```', ...example, '```']);
+          }
+
+          hoverText.appendMarkdown(output.join('\n'));
+          info.push(hoverText);
         }
 
-        const output = ['```', headline, '```', '***', defintion.description];
-
-        if (example.length > 0) {
-          output.push(...['#### Examples:', '```', ...example, '```']);
-        }
-
-        hoverText.appendMarkdown(output.join('\n'));
-
-        return new Hover(hoverText);
+        return new Hover(info);
       }
 
+      const hoverText = new MarkdownString('');
+      const metaTypes = Array.from(entity.types).map(SignatureDefinitionTypeMeta.parse)
+
       hoverText.appendCodeblock(
-        `(${typeInfo.kind}) ${typeInfo.label}: ${formatTypes(typeInfo.type)}`
+        `(${entity.kind}) ${entity.label}: ${formatTypes(metaTypes)}`
       );
 
       return new Hover(hoverText);

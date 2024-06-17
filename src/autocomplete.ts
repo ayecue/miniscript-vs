@@ -5,8 +5,11 @@ import {
   ASTMemberExpression
 } from 'miniscript-core';
 import {
-  SignatureDefinitionArg,
-  SignatureDefinitionContainer
+  SignatureDefinitionFunction,
+  SignatureDefinitionFunctionArg,
+  SignatureDefinitionTypeMeta,
+  SignatureDefinitionBaseType,
+  SignatureDefinition
 } from 'meta-utils';
 import { miniscriptMeta } from 'miniscript-meta';
 import vscode, {
@@ -18,7 +21,6 @@ import vscode, {
   ExtensionContext,
   ParameterInformation,
   Position,
-  Range,
   SignatureHelp,
   SignatureHelpContext,
   SignatureInformation,
@@ -28,63 +30,55 @@ import vscode, {
 import { AVAILABLE_CONSTANTS } from './autocomplete/constants';
 import { AVAILABLE_KEYWORDS } from './autocomplete/keywords';
 import { AVAILABLE_OPERATORS } from './autocomplete/operators';
-import transformASTToString from './helper/ast-stringify';
 import documentParseQueue from './helper/document-manager';
 import { LookupHelper } from './helper/lookup-type';
-import { TypeInfo, TypeInfoWithDefinition } from './helper/type-manager';
+import typeManager from './helper/type-manager';
+import { Document as TypeDocument, CompletionItemKind as EntityKind, createExpressionId } from 'miniscript-type-analyzer';
 
-export const convertDefinitionsToCompletionList = (
-  definitions: SignatureDefinitionContainer
-): CompletionItem[] => {
-  const completionItems: CompletionItem[] = [];
-  const keys = Object.keys(definitions);
-
-  for (let index = 0; index < keys.length; index++) {
-    completionItems.push(
-      new CompletionItem(keys[index], CompletionItemKind.Function)
-    );
+const getCompletionItemKind = (kind: EntityKind): CompletionItemKind => {
+  switch (kind) {
+    case EntityKind.Constant:
+      return CompletionItemKind.Constant;
+    case EntityKind.Variable:
+      return CompletionItemKind.Variable;
+    case EntityKind.Expression:
+      return CompletionItemKind.Variable;
+    case EntityKind.Function:
+      return CompletionItemKind.Function;
+    case EntityKind.ListConstructor:
+    case EntityKind.MapConstructor:
+    case EntityKind.Literal:
+    case EntityKind.Unknown:
+      return CompletionItemKind.Value
   }
-
-  return completionItems;
-};
+}
 
 export const getCompletionList = (
   helper: LookupHelper,
   item: ASTBase
 ): CompletionItem[] => {
-  const typeInfo = helper.lookupBasePath(item);
+  const entity = helper.lookupBasePath(item);
+  const items: CompletionItem[] = [];
 
-  if (typeInfo instanceof TypeInfoWithDefinition) {
-    const definitions = miniscriptMeta.getDefinitions(typeInfo.definition.returns);
-    const completionItems: CompletionItem[] = [
-      ...convertDefinitionsToCompletionList(definitions)
-    ];
-
-    if (completionItems.length > 0) {
-      return completionItems;
-    }
-  } else if (typeInfo instanceof TypeInfo) {
-    const definitions = miniscriptMeta.getDefinitions(typeInfo.type);
-    const completionItems: CompletionItem[] = [
-      ...convertDefinitionsToCompletionList(definitions)
-    ];
-
-    if (completionItems.length > 0) {
-      return completionItems;
-    }
+  for (const [property, item] of entity.getAllIdentifier()) {
+    items.push(new CompletionItem(property, getCompletionItemKind(item.kind)));
   }
 
-  return [];
+  return items;
 };
 
-export const getDefaultCompletionList = (): CompletionItem[] => {
-  const defaultDefinitions = miniscriptMeta.getDefinitions(['general']);
+export const getDefaultCompletionList = (typeDoc: TypeDocument): CompletionItem[] => {
+  const items: CompletionItem[] = [];
+
+  for (const [property, kind] of typeDoc.getRootScopeContext().scope.getAllIdentifier()) {
+    items.push(new CompletionItem(property));
+  }
 
   return [
     ...AVAILABLE_KEYWORDS,
     ...AVAILABLE_OPERATORS,
     ...AVAILABLE_CONSTANTS,
-    ...convertDefinitionsToCompletionList(defaultDefinitions)
+    ...items
   ];
 };
 
@@ -99,6 +93,7 @@ export function activate(_context: ExtensionContext) {
       documentParseQueue.refresh(document);
 
       const helper = new LookupHelper(document);
+      const typeDoc = typeManager.get(document);
       const astResult = helper.lookupAST(position);
       const completionItems: CompletionItem[] = [];
       let base = '';
@@ -109,18 +104,18 @@ export function activate(_context: ExtensionContext) {
         if (
           closest instanceof ASTMemberExpression
         ) {
-          base = transformASTToString(closest.base);
+          base = createExpressionId(closest.base);
           completionItems.push(...getCompletionList(helper, closest));
         } else if (
           closest instanceof ASTIndexExpression
         ) {
-          base = transformASTToString(closest.base);
+          base = createExpressionId(closest.base);
           completionItems.push(...getCompletionList(helper, closest));
         } else {
-          completionItems.push(...getDefaultCompletionList());
+          completionItems.push(...getDefaultCompletionList(typeDoc));
         }
       } else {
-        completionItems.push(...getDefaultCompletionList());
+        completionItems.push(...getDefaultCompletionList(typeDoc));
       }
 
       if (!astResult) {
@@ -263,7 +258,7 @@ export function activate(_context: ExtensionContext) {
           outer: root ? [root] : []
         });
 
-        if (!item || !(item instanceof TypeInfoWithDefinition)) {
+        if (!item || !item.isCallable()) {
           return;
         }
 
@@ -285,22 +280,22 @@ export function activate(_context: ExtensionContext) {
         signatureHelp.signatures = [];
         signatureHelp.activeSignature = 0;
 
-        const definition = item.definition;
-        const args = definition.arguments || [];
-        const returnValues = definition.returns.join(' or ') || 'null';
+        const fnDef = item.signatureDefinitions.first() as SignatureDefinitionFunction;
+        const args = fnDef.getArguments() || [];
+        const returnValues = fnDef.getReturns().join(' or ') || 'null';
         const argValues = args
           .map(
-            (item: SignatureDefinitionArg) =>
-              `${item.label}${item.opt ? '?' : ''}: ${item.type}`
+            (item: SignatureDefinitionFunctionArg) =>
+              `${item.getLabel()}${item.isOptional() ? '?' : ''}: ${item.getTypes().join(' or ')}`
           )
           .join(', ');
         const signatureInfo = new SignatureInformation(
-          `(${item.type}) ${item.label} (${argValues}): ${returnValues}`
+          `(${SignatureDefinitionBaseType.Function}) ${item.label} (${argValues}): ${returnValues}`
         );
         const params: ParameterInformation[] = args.map(
-          (argItem: SignatureDefinitionArg) => {
+          (argItem: SignatureDefinitionFunctionArg) => {
             return new ParameterInformation(
-              `${argItem.label}${argItem.opt ? '?' : ''}: ${argItem.type}`
+              `${argItem.getLabel()}${argItem.isOptional() ? '?' : ''}: ${argItem.getTypes().join(' or ')}`
             );
           }
         );

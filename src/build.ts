@@ -53,7 +53,7 @@ export function activate(context: ExtensionContext) {
         disableNamespacesOptimization: config.get('transpiler.dno'),
         excludedNamespaces: [
           ...excludedNamespacesFromConfig,
-          ...Array.from(Object.keys(miniscriptMeta.getSignaturesByType('general')))
+          ...Array.from(Object.keys(miniscriptMeta.getTypeSignature('general').getDefinitions()))
         ]
       }).parse();
 

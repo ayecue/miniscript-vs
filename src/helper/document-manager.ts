@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import { ASTChunkAdvanced, Parser } from 'greybel-core';
 import LRU from 'lru-cache';
-import { ASTBase } from 'miniscript-core';
+import { ASTBase, ASTBaseBlockWithScope } from 'miniscript-core';
 import vscode, { TextDocument, Uri } from 'vscode';
 
 import typeManager from './type-manager';
@@ -10,7 +10,7 @@ export interface ParseResultOptions {
   documentManager: DocumentParseQueue;
   content: string;
   textDocument: TextDocument;
-  document: ASTBase | null;
+  document: ASTBaseBlockWithScope | null;
   errors: Error[];
 }
 
@@ -18,7 +18,7 @@ export class ParseResult {
   documentManager: DocumentParseQueue;
   content: string;
   textDocument: TextDocument;
-  document: ASTBase | null;
+  document: ASTBaseBlockWithScope | null;
   errors: Error[];
 
   private dependencies?: string[];
