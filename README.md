@@ -154,7 +154,7 @@ Provide signatures for your functions to show better hover tooltips. Additionall
 // @example test("title", 123)
 // @param {string} title - The title of the book.
 // @param {string|number} author - The author of the book.
-// @return {crypto} - Some info about return
+// @return {map} - Some info about return
 test = function(test, abc)
   print(test)
 end function
