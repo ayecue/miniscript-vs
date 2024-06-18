@@ -135,3 +135,4 @@ All notable changes to this project will be documented in this file.
 - implement new type manager which keeps better track of types and properties
 - fix and improve documentation regarding intrinsics
 - add description to signature help provider
+- support defining argument and return types for functions through comments to which the hover and auto complete features will react accordingly
