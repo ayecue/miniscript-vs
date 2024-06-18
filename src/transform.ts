@@ -8,6 +8,7 @@ import vscode, {
 } from 'vscode';
 
 import { showCustomErrorMessage } from './helper/show-custom-error';
+import { miniscriptMeta } from 'miniscript-meta';
 
 export enum ShareType {
   WRITE = 'write',
@@ -59,7 +60,10 @@ export function activate(context: ExtensionContext) {
         obfuscation,
         disableLiteralsOptimization: config.get('transpiler.dlo'),
         disableNamespacesOptimization: config.get('transpiler.dno'),
-        excludedNamespaces: excludedNamespacesFromConfig
+        excludedNamespaces: [
+          ...excludedNamespacesFromConfig,
+          ...Array.from(Object.keys(miniscriptMeta.getTypeSignature('general').getDefinitions()))
+        ]
       }).parse();
 
       switch (shareType) {

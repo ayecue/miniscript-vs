@@ -1,6 +1,7 @@
 import vscode, { ExtensionContext } from 'vscode';
 
 import { activate as activateAutocomplete } from './autocomplete';
+import { activate as activateSignature } from './signature';
 import { activate as activateBuild } from './build';
 import { activate as activateDebug } from './debug';
 import { activate as activateDefinition } from './definition';
@@ -11,6 +12,7 @@ import { activate as activateRefresh } from './refresh';
 import { activate as activateSubscriptions } from './subscriptions';
 import { activate as activateSymbol } from './symbol';
 import { activate as activateTransform } from './transform';
+import { activate as activateFormatter } from './formatter';
 
 export function activate(context: ExtensionContext) {
   const config = vscode.workspace.getConfiguration('miniscript');
@@ -24,6 +26,7 @@ export function activate(context: ExtensionContext) {
 
   if (config.get<boolean>('autocomplete')) {
     activateAutocomplete(context);
+    activateSignature(context);
   }
 
   activateDebug(context);
@@ -33,9 +36,13 @@ export function activate(context: ExtensionContext) {
   activateDefinition(context);
   activateSymbol(context);
 
+  if (config.get<boolean>('formatter')) {
+    activateFormatter(context);
+  }
+
   if (config.get<boolean>('diagnostic')) {
     activateDiagnostic(context);
   }
 }
 
-export function deactivate() {}
+export function deactivate() { }

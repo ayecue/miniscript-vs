@@ -1,399 +1,405 @@
 {
-    "name": "miniscript-vs",
-    "displayName": "MiniScript VS",
-    "description": "Toolkit for MiniScript.",
-    "publisher": "ayecue",
-    "author": {
-        "name": "ayecue",
-        "email": "soerenwehmeier@googlemail.com"
-    },
-    "icon": "icon.png",
-    "version": "0.5.2",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:ayecue/miniscript-vs.git"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.16.10",
-        "@babel/plugin-transform-runtime": "^7.16.8",
-        "@babel/preset-env": "^7.16.8",
-        "@babel/preset-react": "^7.18.6",
-        "@monaco-editor/loader": "^1.3.2",
-        "@rollup/plugin-babel": "^6.0.3",
-        "@rollup/plugin-commonjs": "^24.0.1",
-        "@rollup/plugin-json": "^6.0.0",
-        "@rollup/plugin-node-resolve": "^15.0.2",
-        "@rollup/plugin-terser": "^0.4.0",
-        "@types/color-convert": "^2.0.0",
-        "@types/node": "^12.12.0",
-        "@types/react": "^18.0.17",
-        "@types/react-dom": "^18.0.6",
-        "@types/vscode": "^1.63.1",
-        "@typescript-eslint/eslint-plugin": "^5.27.1",
-        "@typescript-eslint/parser": "^5.27.1",
-        "@vscode/test-electron": "^2.0.3",
-        "@vscode/test-web": "^0.0.29",
-        "eslint": "^8.17.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-config-standard": "^17.0.0",
-        "eslint-plugin-import": "^2.26.0",
-        "eslint-plugin-node": "^11.1.0",
-        "eslint-plugin-prettier": "^4.0.0",
-        "eslint-plugin-promise": "^6.0.0",
-        "eslint-plugin-security": "^1.5.0",
-        "eslint-plugin-simple-import-sort": "^7.0.0",
-        "rollup": "^3.20.2",
-        "rollup-plugin-dotenv": "^0.5.0",
-        "rollup-plugin-external-globals": "^0.8.0",
-        "rollup-plugin-polyfill-node": "^0.12.0",
-        "source-map-support": "^0.5.12",
-        "typescript": "^4.5.4"
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "npm run compile:ts && npm run compile:node && npm run compile:browser && npm run move",
-        "compile:ts": "tsc -p ./",
-        "compile:node": "rollup --config rollup.config.node.js --bundleConfigAsCjs",
-        "compile:browser": "rollup --config rollup.config.browser.js --bundleConfigAsCjs",
-        "compile:extension": "vsce package --out extension.vsix",
-        "move": "npm run move:grammar",
-        "move:grammar": "cp -r node_modules/miniscript-textmate/dist/*.json ./",
-        "lint": "eslint ./src/**/*.ts",
-        "lint:fix": "eslint --fix ./src/**/*.ts",
-        "watch": "tsc -watch -p ./",
-        "pretest": "npm run compile",
-        "test:browser": "npm run compile:ts && npm run compile:browser && vscode-test-web --extensionDevelopmentPath=. ."
-    },
-    "homepage": "https://github.com/ayecue/miniscript-vs",
-    "engines": {
-        "vscode": "^1.63.1"
-    },
-    "categories": [
-        "Debuggers",
-        "Programming Languages",
-        "Formatters"
-    ],
-    "main": "extension.js",
-    "browser": "extension.browser.js",
-    "qna": "false",
-    "bugs": {
-        "url": "https://github.com/ayecue/miniscript-vs/issues"
-    },
-    "activationEvents": [
-        "onLanguage:miniscript"
-    ],
-    "contributes": {
-        "menus": {
-            "editor/title/run": [
-                {
-                    "command": "miniscript.debug.runEditorContents",
-                    "when": "resourceLangId == miniscript",
-                    "group": "navigation@1"
-                },
-                {
-                    "command": "miniscript.debug.debugEditorContents",
-                    "when": "resourceLangId == miniscript",
-                    "group": "navigation@2"
-                }
-            ],
-            "editor/context": [
-                {
-                    "command": "miniscript.gotoError",
-                    "when": "resourceLangId == miniscript",
-                    "group": "navigation"
-                },
-                {
-                    "submenu": "miniscript.transform",
-                    "when": "resourceLangId == miniscript",
-                    "group": "1_modification"
-                },
-                {
-                    "command": "miniscript.build",
-                    "when": "resourceLangId == miniscript && !isWeb",
-                    "group": "1_modification"
-                }
-            ],
-            "miniscript.transform": [
-                {
-                    "command": "miniscript.transform.clipboard",
-                    "when": "resourceLangId == miniscript"
-                },
-                {
-                    "command": "miniscript.transform.write",
-                    "when": "resourceLangId == miniscript"
-                },
-                {
-                    "command": "miniscript.minify.write",
-                    "when": "resourceLangId == miniscript"
-                },
-                {
-                    "command": "miniscript.beautify.write",
-                    "when": "resourceLangId == miniscript"
-                }
-            ],
-            "explorer/context": [
-                {
-                    "command": "miniscript.build",
-                    "when": "resourceLangId == miniscript && !isWeb",
-                    "group": "1_modification"
-                }
-            ],
-            "commandPalette": [
-                {
-                    "command": "miniscript.debug.debugEditorContents",
-                    "when": "resourceLangId == miniscript"
-                },
-                {
-                    "command": "miniscript.debug.runEditorContents",
-                    "when": "resourceLangId == miniscript"
-                },
-                {
-                    "command": "miniscript.transform.clipboard",
-                    "when": "false"
-                },
-                {
-                    "command": "miniscript.transform.write",
-                    "when": "false"
-                },
-                {
-                    "command": "miniscript.minify.write",
-                    "when": "false"
-                },
-                {
-                    "command": "miniscript.beautify.write",
-                    "when": "false"
-                },
-                {
-                    "command": "miniscript.build",
-                    "when": "resourceLangId == miniscript && !isWeb"
-                },
-                {
-                    "command": "miniscript.gotoError",
-                    "when": "false"
-                },
-                {
-                    "command": "miniscript.refresh",
-                    "when": "resourceLangId == miniscript"
-                }
-            ]
+  "name": "miniscript-vs",
+  "displayName": "MiniScript VS",
+  "description": "Toolkit for MiniScript.",
+  "publisher": "ayecue",
+  "author": {
+    "name": "ayecue",
+    "email": "soerenwehmeier@googlemail.com"
+  },
+  "icon": "icon.png",
+  "version": "0.5.3",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ayecue/miniscript-vs.git"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.10",
+    "@babel/plugin-transform-runtime": "^7.16.8",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-react": "^7.18.6",
+    "@monaco-editor/loader": "^1.3.2",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@types/color-convert": "^2.0.0",
+    "@types/node": "^12.12.0",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@types/vscode": "^1.63.1",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "@vscode/test-electron": "^2.0.3",
+    "@vscode/test-web": "^0.0.29",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-security": "^1.5.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "rollup": "^3.20.2",
+    "rollup-plugin-dotenv": "^0.5.0",
+    "rollup-plugin-external-globals": "^0.8.0",
+    "rollup-plugin-polyfill-node": "^0.12.0",
+    "source-map-support": "^0.5.12",
+    "typescript": "^4.5.4"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "npm run compile:ts && npm run compile:node && npm run compile:browser && npm run move",
+    "compile:ts": "tsc -p ./",
+    "compile:node": "rollup --config rollup.config.node.js --bundleConfigAsCjs",
+    "compile:browser": "rollup --config rollup.config.browser.js --bundleConfigAsCjs",
+    "compile:extension": "vsce package --out extension.vsix",
+    "move": "npm run move:grammar",
+    "move:grammar": "cp -r node_modules/miniscript-textmate/dist/*.json ./",
+    "lint": "eslint ./src/**/*.ts",
+    "lint:fix": "eslint --fix ./src/**/*.ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test:browser": "npm run compile:ts && npm run compile:browser && vscode-test-web --extensionDevelopmentPath=. ."
+  },
+  "homepage": "https://github.com/ayecue/miniscript-vs",
+  "engines": {
+    "vscode": "^1.63.1"
+  },
+  "categories": [
+    "Debuggers",
+    "Programming Languages",
+    "Formatters"
+  ],
+  "main": "extension.js",
+  "browser": "extension.browser.js",
+  "qna": "false",
+  "bugs": {
+    "url": "https://github.com/ayecue/miniscript-vs/issues"
+  },
+  "activationEvents": [
+    "onLanguage:miniscript"
+  ],
+  "contributes": {
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "miniscript.debug.runEditorContents",
+          "when": "resourceLangId == miniscript",
+          "group": "navigation@1"
         },
-        "submenus": [
-            {
-                "id": "miniscript.transform",
-                "label": "MiniScript: Transform"
-            }
+        {
+          "command": "miniscript.debug.debugEditorContents",
+          "when": "resourceLangId == miniscript",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "miniscript.gotoError",
+          "when": "resourceLangId == miniscript",
+          "group": "navigation"
+        },
+        {
+          "submenu": "miniscript.transform",
+          "when": "resourceLangId == miniscript",
+          "group": "1_modification"
+        },
+        {
+          "command": "miniscript.build",
+          "when": "resourceLangId == miniscript && !isWeb",
+          "group": "1_modification"
+        }
+      ],
+      "miniscript.transform": [
+        {
+          "command": "miniscript.transform.clipboard",
+          "when": "resourceLangId == miniscript"
+        },
+        {
+          "command": "miniscript.transform.write",
+          "when": "resourceLangId == miniscript"
+        },
+        {
+          "command": "miniscript.minify.write",
+          "when": "resourceLangId == miniscript"
+        },
+        {
+          "command": "miniscript.beautify.write",
+          "when": "resourceLangId == miniscript"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "miniscript.build",
+          "when": "resourceLangId == miniscript && !isWeb",
+          "group": "1_modification"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "miniscript.debug.debugEditorContents",
+          "when": "resourceLangId == miniscript"
+        },
+        {
+          "command": "miniscript.debug.runEditorContents",
+          "when": "resourceLangId == miniscript"
+        },
+        {
+          "command": "miniscript.transform.clipboard",
+          "when": "false"
+        },
+        {
+          "command": "miniscript.transform.write",
+          "when": "false"
+        },
+        {
+          "command": "miniscript.minify.write",
+          "when": "false"
+        },
+        {
+          "command": "miniscript.beautify.write",
+          "when": "false"
+        },
+        {
+          "command": "miniscript.build",
+          "when": "resourceLangId == miniscript && !isWeb"
+        },
+        {
+          "command": "miniscript.gotoError",
+          "when": "false"
+        },
+        {
+          "command": "miniscript.refresh",
+          "when": "resourceLangId == miniscript"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "miniscript.transform",
+        "label": "MiniScript: Transform"
+      }
+    ],
+    "languages": [
+      {
+        "id": "miniscript",
+        "aliases": [
+          "miniscript",
+          "miniscript"
         ],
+        "extensions": [
+          ".ms"
+        ],
+        "icon": {
+          "light": "./icon.png",
+          "dark": "./icon.png"
+        },
+        "configuration": "./miniscriptLanguageConfig.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "miniscript",
+        "scopeName": "source.ms",
+        "path": "./miniscript.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "miniscript",
+        "path": "./snippets.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "miniscript.gotoError",
+        "title": "MiniScript: Goto Error"
+      },
+      {
+        "command": "miniscript.build",
+        "title": "MiniScript: Build",
+        "when": "!isWeb"
+      },
+      {
+        "command": "miniscript.transform.clipboard",
+        "title": "MiniScript: Transform to clipboard"
+      },
+      {
+        "command": "miniscript.transform.write",
+        "title": "MiniScript: Transform"
+      },
+      {
+        "command": "miniscript.minify.write",
+        "title": "MiniScript: Minify"
+      },
+      {
+        "command": "miniscript.beautify.write",
+        "title": "MiniScript: Beautify"
+      },
+      {
+        "command": "miniscript.refresh",
+        "title": "MiniScript: Refresh"
+      },
+      {
+        "command": "miniscript.debug.debugEditorContents",
+        "title": "Debug File",
+        "category": "Mock Debug",
+        "enablement": "!inDebugMode",
+        "icon": "$(debug-alt)"
+      },
+      {
+        "command": "miniscript.debug.runEditorContents",
+        "title": "Run File",
+        "category": "Mock Debug",
+        "enablement": "!inDebugMode",
+        "icon": "$(play)"
+      }
+    ],
+    "configuration": {
+      "title": "MiniScript VS",
+      "properties": {
+        "miniscript.formatter": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable MiniScript formatter."
+        },
+        "miniscript.autocomplete": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable MiniScript autocomplete."
+        },
+        "miniscript.hoverdocs": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable MiniScript hover tooltips."
+        },
+        "miniscript.diagnostic": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable MiniScript diagnostic."
+        },
+        "miniscript.interpreter.environmentVariables": {
+          "type": "object",
+          "default": {},
+          "description": "Environment variables.",
+          "scope": "resource"
+        },
+        "miniscript.interpreter.silenceErrorPopups": {
+          "type": "boolean",
+          "default": false,
+          "description": "Silence error popups."
+        },
+        "miniscript.transpiler.buildType": {
+          "type": "string",
+          "enum": [
+            "Default",
+            "Uglify",
+            "Beautify"
+          ],
+          "default": "Default",
+          "description": "Build type.",
+          "scope": "resource"
+        },
+        "miniscript.transpiler.environmentVariables": {
+          "type": "object",
+          "default": {},
+          "description": "Environment variables.",
+          "scope": "resource"
+        },
+        "miniscript.transpiler.dlo": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable literals optimization."
+        },
+        "miniscript.transpiler.dno": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable namespaces optimization."
+        },
+        "miniscript.transpiler.excludedNamespaces": {
+          "type": "array",
+          "default": [],
+          "description": "Excluded namespaces regarding optimization.",
+          "scope": "resource"
+        },
+        "miniscript.transpiler.obfuscation": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allow special characters when uglifying."
+        }
+      }
+    },
+    "breakpoints": [
+      {
+        "language": "miniscript"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "miniscript",
         "languages": [
-            {
-                "id": "miniscript",
-                "aliases": [
-                    "miniscript",
-                    "miniscript"
-                ],
-                "extensions": [
-                    ".ms"
-                ],
-                "icon": {
-                    "light": "./icon.png",
-                    "dark": "./icon.png"
-                },
-                "configuration": "./miniscriptLanguageConfig.json"
-            }
+          "miniscript"
         ],
-        "grammars": [
-            {
-                "language": "miniscript",
-                "scopeName": "source.ms",
-                "path": "./miniscript.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "miniscript",
-                "path": "./snippets.json"
-            }
-        ],
-        "commands": [
-            {
-                "command": "miniscript.gotoError",
-                "title": "MiniScript: Goto Error"
-            },
-            {
-                "command": "miniscript.build",
-                "title": "MiniScript: Build",
-                "when": "!isWeb"
-            },
-            {
-                "command": "miniscript.transform.clipboard",
-                "title": "MiniScript: Transform to clipboard"
-            },
-            {
-                "command": "miniscript.transform.write",
-                "title": "MiniScript: Transform"
-            },
-            {
-                "command": "miniscript.minify.write",
-                "title": "MiniScript: Minify"
-            },
-            {
-                "command": "miniscript.beautify.write",
-                "title": "MiniScript: Beautify"
-            },
-            {
-                "command": "miniscript.refresh",
-                "title": "MiniScript: Refresh"
-            },
-            {
-                "command": "miniscript.debug.debugEditorContents",
-                "title": "Debug File",
-                "category": "Mock Debug",
-                "enablement": "!inDebugMode",
-                "icon": "$(debug-alt)"
-            },
-            {
-                "command": "miniscript.debug.runEditorContents",
-                "title": "Run File",
-                "category": "Mock Debug",
-                "enablement": "!inDebugMode",
-                "icon": "$(play)"
-            }
-        ],
-        "configuration": {
-            "title": "MiniScript VS",
+        "label": "MiniScript Debug",
+        "program": "./out/debug/adapter.js",
+        "runtime": "node",
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
             "properties": {
-                "miniscript.autocomplete": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Enable MiniScript autocomplete."
-                },
-                "miniscript.hoverdocs": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Enable MiniScript hover tooltips."
-                },
-                "miniscript.diagnostic": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Enable MiniScript diagnostic."
-                },
-                "miniscript.interpreter.environmentVariables": {
-                    "type": "object",
-                    "default": {},
-                    "description": "Environment variables.",
-                    "scope": "resource"
-                },
-                "miniscript.interpreter.silenceErrorPopups": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Silence error popups."
-                },
-                "miniscript.transpiler.buildType": {
-                    "type": "string",
-                    "enum": [
-                        "Default",
-                        "Uglify",
-                        "Beautify"
-                    ],
-                    "default": "Default",
-                    "description": "Build type.",
-                    "scope": "resource"
-                },
-                "miniscript.transpiler.environmentVariables": {
-                    "type": "object",
-                    "default": {},
-                    "description": "Environment variables.",
-                    "scope": "resource"
-                },
-                "miniscript.transpiler.dlo": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Disable literals optimization."
-                },
-                "miniscript.transpiler.dno": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Disable namespaces optimization."
-                },
-                "miniscript.transpiler.excludedNamespaces": {
-                    "type": "array",
-                    "default": [],
-                    "description": "Excluded namespaces regarding optimization.",
-                    "scope": "resource"
-                },
-                "miniscript.transpiler.obfuscation": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Allow special characters when uglifying."
-                }
+              "program": {
+                "type": "string",
+                "description": "Absolute path to a text file.",
+                "default": "${command:AskForProgramName}"
+              }
             }
+          }
         },
-        "breakpoints": [
-            {
-                "language": "miniscript"
-            }
+        "initialConfigurations": [
+          {
+            "type": "miniscript",
+            "request": "launch",
+            "name": "Ask for file name",
+            "program": "${command:AskForProgramName}"
+          }
         ],
-        "debuggers": [
-            {
-                "type": "miniscript",
-                "languages": [
-                    "miniscript"
-                ],
-                "label": "MiniScript Debug",
-                "program": "./out/debug/adapter.js",
-                "runtime": "node",
-                "configurationAttributes": {
-                    "launch": {
-                        "required": [
-                            "program"
-                        ],
-                        "properties": {
-                            "program": {
-                                "type": "string",
-                                "description": "Absolute path to a text file.",
-                                "default": "${command:AskForProgramName}"
-                            }
-                        }
-                    }
-                },
-                "initialConfigurations": [
-                    {
-                        "type": "miniscript",
-                        "request": "launch",
-                        "name": "Ask for file name",
-                        "program": "${command:AskForProgramName}"
-                    }
-                ],
-                "configurationSnippets": [
-                    {
-                        "label": "MiniScript Debug: Launch",
-                        "description": "A new configuration for 'debugging' a user selected miniscript file.",
-                        "body": {
-                            "type": "miniscript",
-                            "request": "launch",
-                            "name": "Ask for file name",
-                            "program": "^\"\\${command:AskForProgramName}\""
-                        }
-                    }
-                ],
-                "variables": {
-                    "AskForProgramName": "miniscript.debug.getProgramName"
-                }
+        "configurationSnippets": [
+          {
+            "label": "MiniScript Debug: Launch",
+            "description": "A new configuration for 'debugging' a user selected miniscript file.",
+            "body": {
+              "type": "miniscript",
+              "request": "launch",
+              "name": "Ask for file name",
+              "program": "^\"\\${command:AskForProgramName}\""
             }
-        ]
-    },
-    "dependencies": {
-        "@vscode/debugadapter": "^1.51.1",
-        "@vscode/debugprotocol": "^1.51.0",
-        "another-ansi": "^1.0.2",
-        "ansi-escapes": "^4.3.2",
-        "greybel-core": "~1.6.1",
-        "greybel-interpreter": "~4.6.5",
-        "greybel-ms-intrinsics": "~1.5.4",
-        "greybel-transpiler": "~2.6.1",
-        "lru-cache": "^7.14.1",
-        "miniscript-meta": "~0.4.1",
-        "miniscript-textmate": "~0.2.0",
-        "text-encoder-lite": "^2.0.0"
-    },
-    "browserslist": "> 0.25%, not dead"
+          }
+        ],
+        "variables": {
+          "AskForProgramName": "miniscript.debug.getProgramName"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "@vscode/debugadapter": "^1.51.1",
+    "@vscode/debugprotocol": "^1.51.0",
+    "another-ansi": "^1.0.2",
+    "ansi-escapes": "^4.3.2",
+    "greybel-core": "~1.6.2",
+    "greybel-interpreter": "~4.6.7",
+    "greybel-ms-intrinsics": "~1.5.7",
+    "greybel-transpiler": "~2.6.8",
+    "lru-cache": "^7.14.1",
+    "miniscript-meta": "~1.2.3",
+    "miniscript-textmate": "~0.2.1",
+    "miniscript-type-analyzer": "~0.1.28",
+    "text-encoder-lite": "^2.0.0"
+  },
+  "browserslist": "> 0.25%, not dead"
 }
