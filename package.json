@@ -396,9 +396,9 @@
     "greybel-ms-intrinsics": "~1.5.7",
     "greybel-transpiler": "~2.6.6",
     "lru-cache": "^7.14.1",
-    "miniscript-meta": "~1.2.2",
+    "miniscript-meta": "~1.2.3",
     "miniscript-textmate": "~0.2.1",
-    "miniscript-type-analyzer": "~0.1.20",
+    "miniscript-type-analyzer": "~0.1.21",
     "text-encoder-lite": "^2.0.0"
   },
   "browserslist": "> 0.25%, not dead"
