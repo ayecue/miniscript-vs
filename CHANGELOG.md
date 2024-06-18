@@ -125,7 +125,7 @@ All notable changes to this project will be documented in this file.
 - fix behaviour of val intrinsic, properly parse strings which have commas prior to dot
 - fix lexer which could for certain character under certain conditions cause inifinite loops
 
-## [0.5.3] - 30.05.2024
+## [0.5.3] - 18.06.2024
 
 - improve beautifier formatting - related to [#4](https://github.com/ayecue/miniscript-vs/issues/4)
 - add formatter - related to [#4](https://github.com/ayecue/miniscript-vs/issues/4)
