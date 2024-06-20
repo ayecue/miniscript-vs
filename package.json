@@ -335,7 +335,7 @@
           "default": false,
           "description": "Always keep the parentheses."
         },
-        "miniscript.transpiler.beautify.indendation": {
+        "miniscript.transpiler.beautify.indentation": {
           "type": "string",
           "enum": [
             "Tab",
