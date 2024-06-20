@@ -329,6 +329,25 @@
           "type": "boolean",
           "default": false,
           "description": "Allow special characters when uglifying."
+        },
+        "miniscript.transpiler.beautify.keepParentheses": {
+          "type": "boolean",
+          "default": false,
+          "description": "Always keep the parentheses."
+        },
+        "miniscript.transpiler.beautify.indendation": {
+          "type": "string",
+          "enum": [
+            "Tab",
+            "Whitespace"
+          ],
+          "default": "Tab",
+          "description": "Tab or whitespace. What should be used for indentation?"
+        },
+        "miniscript.transpiler.beautify.indentationSpaces": {
+          "type": "number",
+          "default": 2,
+          "description": "Define the amount of whitespaces when using whitespaces as indentation."
         }
       }
     },
@@ -394,7 +413,7 @@
     "greybel-core": "~1.7.0",
     "greybel-interpreter": "~4.7.0",
     "greybel-ms-intrinsics": "~1.6.0",
-    "greybel-transpiler": "~2.7.0",
+    "greybel-transpiler": "~2.7.1",
     "lru-cache": "^7.14.1",
     "miniscript-meta": "~1.2.3",
     "miniscript-textmate": "~0.2.1",
