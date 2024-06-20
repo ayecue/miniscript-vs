@@ -141,3 +141,6 @@ All notable changes to this project will be documented in this file.
 
 - add parenthesis for compound assignment
 - fix beautifier compound assignment regarding precedence
+- add transpiler beautifier option to keep parentheses
+- add transpiler beautifier option to set indendation by either tab or whitespace
+- add transpiler beautifier option to set amount of whitespaces for indentation
