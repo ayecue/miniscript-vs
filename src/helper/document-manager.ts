@@ -156,7 +156,7 @@ export class DocumentParseQueue extends EventEmitter {
     const chunk = parser.parseChunk() as ASTChunkAdvanced;
 
     if (chunk.body?.length > 0) {
-      typeManager.analyze(document, chunk);
+      typeManager.analyze(document.uri.fsPath, chunk);
 
       return new ParseResult({
         documentManager: this,
@@ -171,7 +171,7 @@ export class DocumentParseQueue extends EventEmitter {
       const strictParser = new Parser(document.getText());
       const strictChunk = strictParser.parseChunk() as ASTChunkAdvanced;
 
-      typeManager.analyze(document, strictChunk);
+      typeManager.analyze(document.uri.fsPath, strictChunk);
 
       return new ParseResult({
         documentManager: this,
