@@ -144,3 +144,7 @@ All notable changes to this project will be documented in this file.
 - add transpiler beautifier option to keep parentheses
 - add transpiler beautifier option to set indendation by either tab or whitespace
 - add transpiler beautifier option to set amount of whitespaces for indentation
+
+## [0.5.5] - 20.06.2024
+
+- add dev mode for transpiler so that it won't transpile code into production ready code, meaning that for example includes or imports won't be transpiled via formatter but rather by build command

@@ -114,9 +114,7 @@ export class LookupHelper {
     const result: Map<string, CompletionItem> = new Map();
     const scopeContext = typeDoc.getScopeContext(item.scope);
     const assignments = Array.from(
-      scopeContext
-        .scope.locals.getAllIdentifier()
-        .entries()
+      scopeContext.scope.locals.getAllIdentifier().entries()
     )
       .map(([key, item]) => {
         return {

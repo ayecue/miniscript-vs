@@ -34,13 +34,16 @@ export function activate(context: ExtensionContext) {
         config.get<string[]>('transpiler.excludedNamespaces') || [];
       const obfuscation = config.get<boolean>('transpiler.obfuscation');
       let buildType = BuildType.DEFAULT;
-      let buildOptions = {};
+      let buildOptions: any = {
+        isDevMode: false
+      };
 
       if (buildTypeFromConfig === 'Uglify') {
         buildType = BuildType.UGLIFY;
       } else if (buildTypeFromConfig === 'Beautify') {
         buildType = BuildType.BEAUTIFY;
         buildOptions = {
+          isDevMode: false,
           keepParentheses: config.get<boolean>('transpiler.beautify.keepParentheses'),
           indentation: config.get<string>('transpiler.beautify.indentation') === 'Tab' ? 0 : 1,
           indentationSpaces: config.get<number>('transpiler.beautify.indentationSpaces')
