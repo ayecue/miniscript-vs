@@ -165,3 +165,4 @@ All notable changes to this project will be documented in this file.
 - fix resolving of namespaces
 - optimize deep-hash and deep-equal
 - improve error message when path not found in type
+- improve definition provider
