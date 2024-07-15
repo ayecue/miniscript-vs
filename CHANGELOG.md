@@ -170,3 +170,7 @@ All notable changes to this project will be documented in this file.
 ## [0.5.9] - 15.07.2024
 
 - fix autocomplete including map related intrinsics in general
+
+## [0.5.10] - 15.07.2024
+
+- properly check in type-analyzer if string in index is valid identifier
