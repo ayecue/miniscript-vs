@@ -166,3 +166,7 @@ All notable changes to this project will be documented in this file.
 - optimize deep-hash and deep-equal
 - improve error message when path not found in type
 - improve definition provider
+
+## [0.5.9] - 15.07.2024
+
+- fix autocomplete including map related intrinsics in general
