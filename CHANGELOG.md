@@ -180,3 +180,11 @@ All notable changes to this project will be documented in this file.
 
 - let type-analyzer resolve logical expressions as number
 - let type-analyzer set proper label for binary expression
+
+## [0.5.12] - 18.07.2024
+
+- keep multiline comments in devMode when beautifying
+- fix beautify regarding multiline comments
+- fix beautify when having multiple commands in one line via semicolon
+- fix signature parser for multiline comments
+- add support for envar, file and line in type-analyzer
