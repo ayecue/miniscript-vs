@@ -188,3 +188,11 @@ All notable changes to this project will be documented in this file.
 - fix beautify when having multiple commands in one line via semicolon
 - fix signature parser for multiline comments
 - add support for envar, file and line in type-analyzer
+
+## [0.5.13] - 20.07.2024
+
+- optimize build size
+
+## [0.5.14] - 21.07.2024
+
+- optimize interpreter task schedule
