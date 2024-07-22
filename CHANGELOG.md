@@ -193,6 +193,6 @@ All notable changes to this project will be documented in this file.
 
 - optimize build size
 
-## [0.5.14] - 21.07.2024
+## [0.5.14] - 22.07.2024
 
-- optimize interpreter task schedule
+- optimize interpreter task schedule, resulting in faster execution
