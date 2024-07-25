@@ -200,3 +200,4 @@ All notable changes to this project will be documented in this file.
 ## [0.5.15] - 24.07.2024
 
 - fix beautify indent on shorthand if else
+- add inject expression
