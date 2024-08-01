@@ -439,7 +439,7 @@ export class GreybelDebugSession
     args: DebugProtocol.SetBreakpointsArguments
   ): Promise<void> {
     const me = this;
-    const uri = Uri.file(args.source.path);
+    const uri = Uri.parse(args.source.path);
     const clientLines = args.lines || [];
 
     const actualBreakpoints0 = clientLines.map((line: number) => {
@@ -447,7 +447,7 @@ export class GreybelDebugSession
         false,
         line,
         0,
-        new Source(uri.fsPath, uri.fsPath)
+        new Source(uri.toString(true), uri.toString(true))
       ) as DebugProtocol.Breakpoint;
       bp.id = me._breakpointIncrement++;
       return bp;
@@ -456,7 +456,7 @@ export class GreybelDebugSession
       actualBreakpoints0
     );
 
-    me.breakpoints.set(uri.fsPath, actualBreakpoints);
+    me.breakpoints.set(uri.toString(true), actualBreakpoints);
 
     response.body = {
       breakpoints: actualBreakpoints
@@ -471,8 +471,8 @@ export class GreybelDebugSession
     _request?: DebugProtocol.Request
   ): void {
     if (args.source.path) {
-      const uri = Uri.file(args.source.path);
-      const breakpoints = this.breakpoints.get(uri.fsPath) || [];
+      const uri = Uri.parse(args.source.path);
+      const breakpoints = this.breakpoints.get(uri.toString(true)) || [];
       const actualBreakpoint = breakpoints.find(
         (bp: DebugProtocol.Breakpoint) => {
           return bp.line === args.line;

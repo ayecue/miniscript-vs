@@ -43,12 +43,12 @@ export function activate(_context: ExtensionContext) {
         const importCodeAst = astResult.closest as ASTFeatureImportExpression;
         const fileDir = importCodeAst.path;
 
-        const rootDir = fileDir.startsWith('/') ? vscode.workspace.workspaceFolders[0]?.uri : Uri.joinPath(Uri.file(document.fileName), '..');
+        const rootDir = fileDir.startsWith('/') ? vscode.workspace.workspaceFolders[0]?.uri : Uri.joinPath(document.uri, '..');
         const target = Uri.joinPath(rootDir, fileDir);
 
         const output = [
           `[Inserts file "${PseudoFS.basename(
-            target.fsPath
+            target.path
           )}" inside this code when building](${target.toString(true)})`,
           '***',
           'Click the link above to open the file.'

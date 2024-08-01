@@ -201,3 +201,8 @@ All notable changes to this project will be documented in this file.
 
 - fix beautify indent on shorthand if else
 - add inject expression
+
+## [0.5.16] - 01.08.2024
+
+- show proper error message when trying to call propery from null value instead of throwing ".getWithOrigin is not a function"
+- replace usage of fs paths with vscode uris to prepare for language server port
