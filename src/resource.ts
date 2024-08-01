@@ -11,10 +11,6 @@ import vscode, { Uri } from 'vscode';
 const fs = vscode.workspace.fs;
 
 export class PseudoFS {
-  static sep: string = path.sep;
-  static win32 = path.win32;
-  static posix = path.posix;
-
   static basename(file: string): string {
     return path.basename(file);
   }
@@ -26,15 +22,13 @@ export class PseudoFS {
   static resolve(file: string): string {
     return path.resolve(file);
   }
-
-  static isWindows() {
-    return this.win32.sep === this.sep;
-  }
 }
 
-async function tryToGet(targetUri: string): Promise<Uint8Array | null> {
+export async function tryToGet(
+  targetUri: Uri
+): Promise<Uint8Array | null> {
   try {
-    return await fs.readFile(Uri.file(targetUri));
+    return await fs.readFile(targetUri);
   } catch (err) {
     console.error(err);
   }
@@ -42,7 +36,10 @@ async function tryToGet(targetUri: string): Promise<Uint8Array | null> {
   return null;
 }
 
-async function tryToGetPath(targetUri: string, altTargetUri: string): Promise<string> {
+export async function tryToGetPath(
+  targetUri: Uri,
+  altTargetUri: Uri
+): Promise<Uri> {
   if (await tryToGet(targetUri)) {
     return targetUri;
   } else if (await tryToGet(altTargetUri)) {
@@ -51,9 +48,15 @@ async function tryToGetPath(targetUri: string, altTargetUri: string): Promise<st
   return targetUri;
 }
 
-async function tryToDecode(targetUri: string): Promise<string> {
+export async function tryToDecode(targetUri: Uri): Promise<string> {
   const out = await tryToGet(targetUri);
-  return out ? new TextDecoder().decode(out) : '';
+
+  if (out) {
+    const content = new TextDecoder().decode(out);
+    return content;
+  }
+
+  return '';
 }
 
 export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
@@ -63,18 +66,20 @@ export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
         source: string,
         target: string
       ): Promise<string> => {
-        const base = target.startsWith('/') ? vscode.workspace.workspaceFolders[0]?.uri : Uri.joinPath(Uri.file(source), '..');
-        const result = Uri.joinPath(base, target).fsPath;
-        return await tryToGetPath(result, `${result}.ms`);
+        const base = target.startsWith('/') ? vscode.workspace.workspaceFolders[0]?.uri : Uri.joinPath(Uri.parse(source), '..');
+        const uri = Uri.joinPath(base, target);
+        const uriAlt = Uri.joinPath(base, `${target}.ms`);
+        const result = await tryToGetPath(uri, uriAlt);
+        return result.toString(true);
       },
       has: async (target: string): Promise<boolean> => {
-        return !!(await tryToGet(target));
+        return !!(await tryToGet(Uri.parse(target)));
       },
       get: (target: string): Promise<string> => {
-        return tryToDecode(target);
+        return tryToDecode(Uri.parse(target));
       },
       resolve: (target: string): Promise<string> => {
-        return Promise.resolve(Uri.file(target).fsPath);
+        return Promise.resolve(Uri.parse(target).toString(true));
       }
     };
   }
@@ -82,20 +87,22 @@ export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
 
 export class InterpreterResourceProvider extends InterpreterResourceHandler {
   async getTargetRelativeTo(source: string, target: string): Promise<string> {
-    const base = target.startsWith('/') ? vscode.workspace.workspaceFolders[0]?.uri : Uri.joinPath(Uri.file(source), '..');
-    const result = Uri.joinPath(base, target).fsPath;
-    return await tryToGetPath(result, `${result}.ms`);
+    const base = target.startsWith('/') ? vscode.workspace.workspaceFolders[0]?.uri : Uri.joinPath(Uri.parse(source), '..');
+    const uri = Uri.joinPath(base, target);
+    const uriAlt = Uri.joinPath(base, `${target}.ms`);
+    const result = await tryToGetPath(uri, uriAlt);
+    return result.toString(true);
   }
 
   async has(target: string): Promise<boolean> {
-    return !!(await tryToGet(target));
+    return !!(await tryToGet(Uri.parse(target)));
   }
 
   get(target: string): Promise<string> {
-    return tryToDecode(target);
+    return tryToDecode(Uri.parse(target));
   }
 
   resolve(target: string): Promise<string> {
-    return Promise.resolve(Uri.file(target).fsPath);
+    return Promise.resolve(Uri.parse(target).toString(true));
   }
 }

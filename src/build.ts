@@ -14,7 +14,7 @@ export function activate(context: ExtensionContext) {
   async function build(
     eventUri: Uri = vscode.window.activeTextEditor?.document?.uri
   ) {
-    const result = await documentManager.open(eventUri.fsPath);
+    const result = await documentManager.open(eventUri);
 
     if (result === null) {
       vscode.window.showErrorMessage(
@@ -26,7 +26,7 @@ export function activate(context: ExtensionContext) {
 
     try {
       const config = vscode.workspace.getConfiguration('miniscript');
-      const target = eventUri.fsPath;
+      const targetUri = eventUri;
       const buildTypeFromConfig = config.get('transpiler.buildType');
       const environmentVariablesFromConfig =
         config.get<object>('transpiler.environmentVariables') || {};
@@ -51,7 +51,7 @@ export function activate(context: ExtensionContext) {
       }
 
       const result = await new Transpiler({
-        target,
+        target: targetUri.toString(true),
         resourceHandler: new TranspilerResourceProvider().getHandler(),
         buildType,
         buildOptions,
@@ -69,7 +69,7 @@ export function activate(context: ExtensionContext) {
 
       const rootPath = vscode.workspace.rootPath
         ? Uri.file(vscode.workspace.rootPath)
-        : Uri.joinPath(Uri.file(eventUri.fsPath), '..');
+        : Uri.joinPath(eventUri, '..');
       const buildPath = Uri.joinPath(rootPath, './build');
 
       try {
@@ -79,7 +79,7 @@ export function activate(context: ExtensionContext) {
       }
 
       await vscode.workspace.fs.createDirectory(buildPath);
-      await createParseResult(target, buildPath, result);
+      await createParseResult(targetUri, buildPath, result);
 
       vscode.window.showInformationMessage(
         `Build done. Available [here](${buildPath.toString(true)}).`,

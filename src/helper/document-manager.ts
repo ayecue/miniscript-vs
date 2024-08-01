@@ -41,18 +41,17 @@ export class ParseResult {
     }
 
     const rootChunk = this.document as ASTChunkAdvanced;
-    const rootPath = Uri.joinPath(Uri.file(this.textDocument.fileName), '..');
+    const rootPath = Uri.joinPath(this.textDocument.uri, '..');
     const dependencies: Set<string> = new Set([
       ...rootChunk.imports
         .filter((nonNativeImport) => nonNativeImport.path)
-        .map(
-          (nonNativeImport) =>
-            Uri.joinPath(rootPath, nonNativeImport.path).fsPath
+        .map((nonNativeImport) =>
+          Uri.joinPath(rootPath, nonNativeImport.path).toString(true)
         ),
       ...rootChunk.includes
         .filter((includeImport) => includeImport.path)
-        .map(
-          (includeImport) => Uri.joinPath(rootPath, includeImport.path).fsPath
+        .map((includeImport) =>
+          Uri.joinPath(rootPath, includeImport.path).toString(true)
         )
     ]);
 
@@ -67,14 +66,16 @@ export class ParseResult {
     }
 
     const imports: Set<ParseResult> = new Set();
-    const visited: Set<string> = new Set([this.textDocument.fileName]);
+    const visited: Set<string> = new Set([
+      this.textDocument.uri.toString(true)
+    ]);
     const traverse = async (rootResult: ParseResult) => {
-      const dependencies = rootResult.getDependencies();
+      const dependencies = await rootResult.getDependencies();
 
       for (const dependency of dependencies) {
         if (visited.has(dependency)) continue;
 
-        const item = await this.documentManager.open(dependency);
+        const item = await this.documentManager.open(Uri.parse(dependency));
 
         visited.add(dependency);
 
@@ -134,7 +135,7 @@ export class DocumentParseQueue extends EventEmitter {
   }
 
   refresh(document: TextDocument): ParseResult {
-    const key = document.fileName;
+    const key = document.uri.toString(true);
 
     if (!this.queue.has(key) && this.results.has(key)) {
       return this.results.get(key)!;
@@ -156,7 +157,7 @@ export class DocumentParseQueue extends EventEmitter {
     const chunk = parser.parseChunk() as ASTChunkAdvanced;
 
     if (chunk.body?.length > 0) {
-      typeManager.analyze(document.uri.fsPath, chunk);
+      typeManager.analyze(document.uri.toString(true), chunk);
 
       return new ParseResult({
         documentManager: this,
@@ -171,7 +172,7 @@ export class DocumentParseQueue extends EventEmitter {
       const strictParser = new Parser(document.getText());
       const strictChunk = strictParser.parseChunk() as ASTChunkAdvanced;
 
-      typeManager.analyze(document.uri.fsPath, strictChunk);
+      typeManager.analyze(document.uri.toString(true), strictChunk);
 
       return new ParseResult({
         documentManager: this,
@@ -192,18 +193,18 @@ export class DocumentParseQueue extends EventEmitter {
   }
 
   update(document: TextDocument): boolean {
-    const fileName = document.fileName;
+    const fileUri = document.uri.toString(true);
     const content = document.getText();
 
-    if (this.queue.has(fileName)) {
+    if (this.queue.has(fileUri)) {
       return false;
     }
 
-    if (this.results.get(fileName)?.content === content) {
+    if (this.results.get(fileUri)?.content === content) {
       return false;
     }
 
-    this.queue.set(fileName, {
+    this.queue.set(fileUri, {
       document,
       createdAt: Date.now()
     });
@@ -211,7 +212,7 @@ export class DocumentParseQueue extends EventEmitter {
     return true;
   }
 
-  async open(target: string): Promise<ParseResult | null> {
+  async open(target: Uri): Promise<ParseResult | null> {
     try {
       const textDocument = await vscode.workspace.openTextDocument(target);
       return this.get(textDocument);
@@ -221,20 +222,22 @@ export class DocumentParseQueue extends EventEmitter {
   }
 
   get(document: TextDocument): ParseResult {
-    return this.results.get(document.fileName) || this.refresh(document);
+    return (
+      this.results.get(document.uri.toString(true)) || this.refresh(document)
+    );
   }
 
   next(document: TextDocument, timeout: number = 5000): Promise<ParseResult> {
     const me = this;
 
-    if (me.queue.has(document.fileName)) {
+    if (me.queue.has(document.uri.toString(true))) {
       return new Promise((resolve) => {
         const onTimeout = () => {
           me.removeListener('parsed', onParse);
           resolve(me.get(document));
         };
         const onParse = (evDocument: TextDocument) => {
-          if (evDocument.fileName === document.fileName) {
+          if (evDocument.uri.toString(true) === document.uri.toString(true)) {
             me.removeListener('parsed', onParse);
             clearTimeout(timer);
             resolve(me.get(document));
@@ -250,7 +253,7 @@ export class DocumentParseQueue extends EventEmitter {
   }
 
   clear(document: TextDocument): void {
-    this.results.delete(document.fileName);
+    this.results.delete(document.uri.toString(true));
     this.emit('cleared', document);
   }
 }
