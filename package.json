@@ -8,7 +8,7 @@
     "email": "soerenwehmeier@googlemail.com"
   },
   "icon": "icon.png",
-  "version": "0.5.16",
+  "version": "0.5.17",
   "repository": {
     "type": "git",
     "url": "git@github.com:ayecue/miniscript-vs.git"
@@ -409,7 +409,8 @@
     "miniscript-meta": "~1.2.3",
     "miniscript-textmate": "~0.3.0",
     "miniscript-type-analyzer": "~0.7.0",
-    "text-encoder-lite": "^2.0.0"
+    "text-encoder-lite": "^2.0.0",
+    "unixify": "^1.0.0"
   },
   "browserslist": "> 0.25%, not dead"
 }
