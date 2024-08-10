@@ -8,7 +8,7 @@
     "email": "soerenwehmeier@googlemail.com"
   },
   "icon": "icon.png",
-  "version": "0.5.16",
+  "version": "0.6.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:ayecue/miniscript-vs.git"
@@ -401,15 +401,16 @@
     "@vscode/debugprotocol": "^1.51.0",
     "another-ansi": "^1.0.2",
     "ansi-escapes": "^4.3.2",
-    "greybel-core": "~1.8.4",
-    "greybel-interpreter": "~4.10.1",
-    "greybel-ms-intrinsics": "~1.9.1",
-    "greybel-transpiler": "~2.9.2",
+    "greybel-core": "~2.0.3",
+    "greybel-interpreter": "~5.0.3",
+    "greybel-ms-intrinsics": "~2.0.2",
+    "greybel-transpiler": "~3.0.5",
     "lru-cache": "^7.14.1",
     "miniscript-meta": "~1.2.3",
     "miniscript-textmate": "~0.3.0",
-    "miniscript-type-analyzer": "~0.7.0",
-    "text-encoder-lite": "^2.0.0"
+    "miniscript-type-analyzer": "~0.8.1",
+    "text-encoder-lite": "^2.0.0",
+    "unixify": "^1.0.0"
   },
   "browserslist": "> 0.25%, not dead"
 }
