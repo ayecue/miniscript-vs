@@ -210,3 +210,9 @@ All notable changes to this project will be documented in this file.
 ## [0.5.17] - 05.08.2024
 
 - fix "Error: EINVAL: invalid argument, mkdir" error on build
+- fix "Edit is only valid while callback runs" on transform
+- fix bytecode generator to properly add negative numbers as default parameters, "function myFunc(index = -1)" works now
+- properly support grouped comparisons, "0" <= numberStr <= "9" works now
+- fix metaxploit load not checking if returned entity is actually a file
+- fix beautify not handling multiline expressions in block openers correctly resulting in a bunch of additional new lines each beautify
+- minor performance improvements in parser

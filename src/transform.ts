@@ -18,7 +18,6 @@ export enum ShareType {
 export function activate(context: ExtensionContext) {
   async function transform(
     editor: TextEditor,
-    editBuilder: TextEditorEdit,
     _args: any[],
     specificBuildType?: BuildType,
     shareType: ShareType = ShareType.WRITE
@@ -87,7 +86,9 @@ export function activate(context: ExtensionContext) {
             lastLine.range.end
           );
 
-          editBuilder.replace(textRange, result);
+          await editor.edit((editBuilder) => {
+            editBuilder.replace(textRange, result);
+          });
           vscode.window.showInformationMessage('Transform done.', {
             modal: false
           });
@@ -121,21 +122,22 @@ export function activate(context: ExtensionContext) {
     vscode.commands.registerTextEditorCommand(
       'miniscript.transform.clipboard',
       (editor: TextEditor, edit: TextEditorEdit, args: any[]) =>
-        transform(editor, edit, args, BuildType.UGLIFY, ShareType.CLIPBOARD)
+        transform(editor, args, undefined, ShareType.CLIPBOARD)
     ),
     vscode.commands.registerTextEditorCommand(
       'miniscript.transform.write',
-      transform
+      (editor: TextEditor, _edit: TextEditorEdit, args: any[]) =>
+        transform(editor, args)
     ),
     vscode.commands.registerTextEditorCommand(
       'miniscript.minify.write',
       (editor: TextEditor, edit: TextEditorEdit, args: any[]) =>
-        transform(editor, edit, args, BuildType.UGLIFY)
+        transform(editor, args, BuildType.UGLIFY)
     ),
     vscode.commands.registerTextEditorCommand(
       'miniscript.beautify.write',
       (editor: TextEditor, edit: TextEditorEdit, args: any[]) =>
-        transform(editor, edit, args, BuildType.BEAUTIFY)
+        transform(editor, args, BuildType.BEAUTIFY)
     )
   );
 }
