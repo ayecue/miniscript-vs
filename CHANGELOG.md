@@ -207,7 +207,7 @@ All notable changes to this project will be documented in this file.
 - show proper error message when trying to call propery from null value instead of throwing ".getWithOrigin is not a function"
 - replace usage of fs paths with vscode uris to prepare for language server port
 
-## [0.5.17] - 05.08.2024
+## [0.6.0] - 10.08.2024
 
 - fix "Error: EINVAL: invalid argument, mkdir" error on build
 - fix "Edit is only valid while callback runs" on transform
