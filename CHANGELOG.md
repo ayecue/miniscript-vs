@@ -229,3 +229,7 @@ All notable changes to this project will be documented in this file.
 - fix beautify for if shorthand clause with comment
 - fix beautify adding an unwanted new line to empty blocks
 - fix beautify adding unwanted new lines for if shorthands with multiline expression towards end of block
+
+## [0.6.3] - 11.08.2024
+
+- fix goto error functionality not working due to latest uri changes

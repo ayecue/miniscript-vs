@@ -5,7 +5,7 @@ import vscode, { Position, Range, Uri } from 'vscode';
 export type CustomError = {
   message: string;
   range?: ASTRange;
-  target: Uri;
+  target: string;
   stack?: string;
   stackTrace?: Instruction[];
 };
@@ -36,7 +36,7 @@ export const showCustomErrorMessage = (err: CustomError): void => {
   const range = getRangeFromCustomError(err);
 
   if (range) {
-    const errTarget = err.target;
+    const errTarget = Uri.parse(err.target);
 
     vscode.window
       .showErrorMessage(

@@ -46,12 +46,12 @@ export class ParseResult {
       ...rootChunk.imports
         .filter((nonNativeImport) => nonNativeImport.path)
         .map((nonNativeImport) =>
-          Uri.joinPath(rootPath, nonNativeImport.path).toString(true)
+          Uri.joinPath(rootPath, nonNativeImport.path).toString()
         ),
       ...rootChunk.includes
         .filter((includeImport) => includeImport.path)
         .map((includeImport) =>
-          Uri.joinPath(rootPath, includeImport.path).toString(true)
+          Uri.joinPath(rootPath, includeImport.path).toString()
         )
     ]);
 
@@ -67,7 +67,7 @@ export class ParseResult {
 
     const imports: Set<ParseResult> = new Set();
     const visited: Set<string> = new Set([
-      this.textDocument.uri.toString(true)
+      this.textDocument.uri.toString()
     ]);
     const traverse = async (rootResult: ParseResult) => {
       const dependencies = await rootResult.getDependencies();
@@ -135,7 +135,7 @@ export class DocumentParseQueue extends EventEmitter {
   }
 
   refresh(document: TextDocument): ParseResult {
-    const key = document.uri.toString(true);
+    const key = document.uri.toString();
 
     if (!this.queue.has(key) && this.results.has(key)) {
       return this.results.get(key)!;
@@ -157,7 +157,7 @@ export class DocumentParseQueue extends EventEmitter {
     const chunk = parser.parseChunk() as ASTChunkAdvanced;
 
     if (chunk.body?.length > 0) {
-      typeManager.analyze(document.uri.toString(true), chunk);
+      typeManager.analyze(document.uri.toString(), chunk);
 
       return new ParseResult({
         documentManager: this,
@@ -172,7 +172,7 @@ export class DocumentParseQueue extends EventEmitter {
       const strictParser = new Parser(document.getText());
       const strictChunk = strictParser.parseChunk() as ASTChunkAdvanced;
 
-      typeManager.analyze(document.uri.toString(true), strictChunk);
+      typeManager.analyze(document.uri.toString(), strictChunk);
 
       return new ParseResult({
         documentManager: this,
@@ -193,7 +193,7 @@ export class DocumentParseQueue extends EventEmitter {
   }
 
   update(document: TextDocument): boolean {
-    const fileUri = document.uri.toString(true);
+    const fileUri = document.uri.toString();
     const content = document.getText();
 
     if (this.queue.has(fileUri)) {
@@ -223,21 +223,21 @@ export class DocumentParseQueue extends EventEmitter {
 
   get(document: TextDocument): ParseResult {
     return (
-      this.results.get(document.uri.toString(true)) || this.refresh(document)
+      this.results.get(document.uri.toString()) || this.refresh(document)
     );
   }
 
   next(document: TextDocument, timeout: number = 5000): Promise<ParseResult> {
     const me = this;
 
-    if (me.queue.has(document.uri.toString(true))) {
+    if (me.queue.has(document.uri.toString())) {
       return new Promise((resolve) => {
         const onTimeout = () => {
           me.removeListener('parsed', onParse);
           resolve(me.get(document));
         };
         const onParse = (evDocument: TextDocument) => {
-          if (evDocument.uri.toString(true) === document.uri.toString(true)) {
+          if (evDocument.uri.toString() === document.uri.toString()) {
             me.removeListener('parsed', onParse);
             clearTimeout(timer);
             resolve(me.get(document));
@@ -253,7 +253,7 @@ export class DocumentParseQueue extends EventEmitter {
   }
 
   clear(document: TextDocument): void {
-    this.results.delete(document.uri.toString(true));
+    this.results.delete(document.uri.toString());
     this.emit('cleared', document);
   }
 }
