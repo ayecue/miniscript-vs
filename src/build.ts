@@ -51,7 +51,7 @@ export function activate(context: ExtensionContext) {
       }
 
       const result = await new Transpiler({
-        target: targetUri.toString(true),
+        target: targetUri.toString(),
         resourceHandler: new TranspilerResourceProvider().getHandler(),
         buildType,
         buildOptions,
@@ -82,7 +82,7 @@ export function activate(context: ExtensionContext) {
       await createParseResult(targetUri, buildPath, result);
 
       vscode.window.showInformationMessage(
-        `Build done. Available [here](${buildPath.toString(true)}).`,
+        `Build done. Available [here](${buildPath.toString()}).`,
         { modal: false }
       );
     } catch (err: any) {
