@@ -223,3 +223,9 @@ All notable changes to this project will be documented in this file.
 ## [0.6.1] - 10.08.2024
 
 - fix beautify not properly appending comment to index expression
+
+## [0.6.2] - 11.08.2024
+
+- fix beautify for if shorthand clause with comment
+- fix beautify adding an unwanted new line to empty blocks
+- fix beautify adding unwanted new lines for if shorthands with multiline expression towards end of block
