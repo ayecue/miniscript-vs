@@ -18,3 +18,5 @@ package-lock.json
 assets
 node_modules
 example
+#languageserver
+!node_modules/miniscript-languageserver

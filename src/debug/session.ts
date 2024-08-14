@@ -56,7 +56,8 @@ interface IRuntimeStack {
 
 export class GreybelDebugSession
   extends LoggingDebugSession
-  implements DebugSessionLike {
+  implements DebugSessionLike
+{
   public threadID: number;
   public lastInstruction: Instruction | undefined;
   public breakpoints: Map<string, DebugProtocol.Breakpoint[]> = new Map();
@@ -192,7 +193,8 @@ export class GreybelDebugSession
         this._out.terminal.print(
           ansiProvider.color(
             ColorType.Red,
-            `${ansiProvider.modify(ModifierType.Bold, 'Prepare error')}: ${err.message
+            `${ansiProvider.modify(ModifierType.Bold, 'Prepare error')}: ${
+              err.message
             } at ${err.target}:${err.range?.start || 0}`
           )
         );
@@ -200,7 +202,8 @@ export class GreybelDebugSession
         this._out.terminal.print(
           ansiProvider.color(
             ColorType.Red,
-            `${ansiProvider.modify(ModifierType.Bold, 'Runtime error')}: ${err.message
+            `${ansiProvider.modify(ModifierType.Bold, 'Runtime error')}: ${
+              err.message
             } in ${err.target}\n${err.stack}`
           )
         );
@@ -208,7 +211,8 @@ export class GreybelDebugSession
         this._out.terminal.print(
           ansiProvider.color(
             ColorType.Red,
-            `${ansiProvider.modify(ModifierType.Bold, 'Unexpected error')}: ${err.message
+            `${ansiProvider.modify(ModifierType.Bold, 'Unexpected error')}: ${
+              err.message
             }\n${err.stack}`
           )
         );

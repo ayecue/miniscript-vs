@@ -4,18 +4,38 @@ import LRU from 'lru-cache';
 import { ASTBaseBlockWithScope } from 'miniscript-core';
 import vscode, { TextDocument, Uri } from 'vscode';
 
-import typeManager from './type-manager';
-
 export interface ParseResultOptions {
-  documentManager: DocumentParseQueue;
+  documentManager: DocumentParsescheduledItems;
   content: string;
   textDocument: TextDocument;
   document: ASTBaseBlockWithScope | null;
   errors: Error[];
 }
 
+export class DocumentURIBuilder {
+  readonly workspaceFolderUri: Uri | null;
+  readonly rootPath: Uri;
+
+  constructor(rootPath: Uri, workspaceFolderUri: Uri = null) {
+    this.workspaceFolderUri = workspaceFolderUri;
+    this.rootPath = rootPath;
+  }
+
+  getFromWorkspaceFolder(path: string): Uri {
+    if (this.workspaceFolderUri == null) {
+      throw new Error('Workspace folder is not defined!');
+    }
+
+    return Uri.joinPath(this.workspaceFolderUri, path);
+  }
+
+  getFromRootPath(path: string): Uri {
+    return Uri.joinPath(this.rootPath, path);
+  }
+}
+
 export class ParseResult {
-  documentManager: DocumentParseQueue;
+  documentManager: DocumentParsescheduledItems;
   content: string;
   textDocument: TextDocument;
   document: ASTBaseBlockWithScope | null;
@@ -31,6 +51,10 @@ export class ParseResult {
     this.errors = options.errors;
   }
 
+  getDirectory(): Uri {
+    return Uri.joinPath(this.textDocument.uri, '..');
+  }
+
   getDependencies(): string[] {
     if (this.document == null) {
       return [];
@@ -41,18 +65,22 @@ export class ParseResult {
     }
 
     const rootChunk = this.document as ASTChunkAdvanced;
-    const rootPath = Uri.joinPath(this.textDocument.uri, '..');
+    const rootPath = this.getDirectory();
+    const workspacePaths = vscode.workspace.workspaceFolders;
+    const builder = new DocumentURIBuilder(rootPath, workspacePaths[0].uri);
+    const getPath = (path: string) => {
+      if (path.startsWith('/')) {
+        return builder.getFromWorkspaceFolder(path).toString();
+      }
+      return builder.getFromRootPath(path).toString();
+    };
     const dependencies: Set<string> = new Set([
       ...rootChunk.imports
         .filter((nonNativeImport) => nonNativeImport.path)
-        .map((nonNativeImport) =>
-          Uri.joinPath(rootPath, nonNativeImport.path).toString()
-        ),
+        .map((nonNativeImport) => getPath(nonNativeImport.path)),
       ...rootChunk.includes
         .filter((includeImport) => includeImport.path)
-        .map((includeImport) =>
-          Uri.joinPath(rootPath, includeImport.path).toString()
-        )
+        .map((includeImport) => getPath(includeImport.path))
     ]);
 
     this.dependencies = Array.from(dependencies);
@@ -66,9 +94,7 @@ export class ParseResult {
     }
 
     const imports: Set<ParseResult> = new Set();
-    const visited: Set<string> = new Set([
-      this.textDocument.uri.toString()
-    ]);
+    const visited: Set<string> = new Set([this.textDocument.uri.toString()]);
     const traverse = async (rootResult: ParseResult) => {
       const dependencies = await rootResult.getDependencies();
 
@@ -95,31 +121,33 @@ export class ParseResult {
   }
 }
 
-export interface QueueItem {
+export interface ScheduledItem {
   document: TextDocument;
   createdAt: number;
 }
 
-export const DOCUMENT_PARSE_QUEUE_INTERVAL = 1000;
-export const DOCUMENT_PARSE_QUEUE_PARSE_TIMEOUT = 2500;
+export const DOCUMENT_PARSE_scheduledItems_INTERVAL = 1000;
+export const DOCUMENT_PARSE_scheduledItems_PARSE_TIMEOUT = 2500;
 
-export class DocumentParseQueue extends EventEmitter {
+export class DocumentParsescheduledItems extends EventEmitter {
   results: LRU<string, ParseResult>;
 
-  private queue: Map<string, QueueItem>;
+  private scheduledItems: Map<string, ScheduledItem>;
   private interval: NodeJS.Timeout | null;
   private readonly parseTimeout: number;
 
-  constructor(parseTimeout: number = DOCUMENT_PARSE_QUEUE_PARSE_TIMEOUT) {
+  constructor(
+    parseTimeout: number = DOCUMENT_PARSE_scheduledItems_PARSE_TIMEOUT
+  ) {
     super();
     this.results = new LRU({
       ttl: 1000 * 60 * 20,
       ttlAutopurge: true
     });
-    this.queue = new Map();
+    this.scheduledItems = new Map();
     this.interval = setInterval(
       () => this.tick(),
-      DOCUMENT_PARSE_QUEUE_INTERVAL
+      DOCUMENT_PARSE_scheduledItems_INTERVAL
     );
     this.parseTimeout = parseTimeout;
   }
@@ -127,7 +155,7 @@ export class DocumentParseQueue extends EventEmitter {
   private tick() {
     const currentTime = Date.now();
 
-    for (const item of this.queue.values()) {
+    for (const item of this.scheduledItems.values()) {
       if (currentTime - item.createdAt > this.parseTimeout) {
         this.refresh(item.document);
       }
@@ -137,14 +165,14 @@ export class DocumentParseQueue extends EventEmitter {
   refresh(document: TextDocument): ParseResult {
     const key = document.uri.toString();
 
-    if (!this.queue.has(key) && this.results.has(key)) {
+    if (!this.scheduledItems.has(key) && this.results.has(key)) {
       return this.results.get(key)!;
     }
 
     const result = this.create(document);
     this.results.set(key, result);
     this.emit('parsed', document, result);
-    this.queue.delete(key);
+    this.scheduledItems.delete(key);
 
     return result;
   }
@@ -157,8 +185,6 @@ export class DocumentParseQueue extends EventEmitter {
     const chunk = parser.parseChunk() as ASTChunkAdvanced;
 
     if (chunk.body?.length > 0) {
-      typeManager.analyze(document.uri.toString(), chunk);
-
       return new ParseResult({
         documentManager: this,
         content,
@@ -171,8 +197,6 @@ export class DocumentParseQueue extends EventEmitter {
     try {
       const strictParser = new Parser(document.getText());
       const strictChunk = strictParser.parseChunk() as ASTChunkAdvanced;
-
-      typeManager.analyze(document.uri.toString(), strictChunk);
 
       return new ParseResult({
         documentManager: this,
@@ -196,7 +220,7 @@ export class DocumentParseQueue extends EventEmitter {
     const fileUri = document.uri.toString();
     const content = document.getText();
 
-    if (this.queue.has(fileUri)) {
+    if (this.scheduledItems.has(fileUri)) {
       return false;
     }
 
@@ -204,7 +228,7 @@ export class DocumentParseQueue extends EventEmitter {
       return false;
     }
 
-    this.queue.set(fileUri, {
+    this.scheduledItems.set(fileUri, {
       document,
       createdAt: Date.now()
     });
@@ -222,15 +246,16 @@ export class DocumentParseQueue extends EventEmitter {
   }
 
   get(document: TextDocument): ParseResult {
-    return (
-      this.results.get(document.uri.toString()) || this.refresh(document)
-    );
+    return this.results.get(document.uri.toString()) || this.refresh(document);
   }
 
-  next(document: TextDocument, timeout: number = 5000): Promise<ParseResult> {
+  getLatest(
+    document: TextDocument,
+    timeout: number = 5000
+  ): Promise<ParseResult> {
     const me = this;
 
-    if (me.queue.has(document.uri.toString())) {
+    if (me.scheduledItems.has(document.uri.toString())) {
       return new Promise((resolve) => {
         const onTimeout = () => {
           me.removeListener('parsed', onParse);
@@ -258,4 +283,4 @@ export class DocumentParseQueue extends EventEmitter {
   }
 }
 
-export default new DocumentParseQueue();
+export default new DocumentParsescheduledItems();
