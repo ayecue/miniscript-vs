@@ -8,7 +8,7 @@ import {
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-  const serverMain = Uri.joinPath(context.extensionUri, 'node_modules/greybel-languageserver/browser.js');
+  const serverMain = Uri.joinPath(context.extensionUri, 'node_modules/miniscript-languageserver/browser.js');
   const worker = new Worker(serverMain.toString(true));
 
   const clientOptions: LanguageClientOptions = {

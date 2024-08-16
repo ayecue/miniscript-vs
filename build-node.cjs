@@ -16,9 +16,9 @@ const build = async () => {
         target: 'ESNext',
         platform: 'node',
         treeShaking: true,
+        format: 'cjs',
         external: [
-          'vscode',
-          'greybel-languageserver'
+          'vscode'
         ]
       });
   } catch (err) {
