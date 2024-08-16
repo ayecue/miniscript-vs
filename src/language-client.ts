@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { workspace, ExtensionContext } from 'vscode';
+import { workspace, ExtensionContext, Uri } from 'vscode';
 
 import {
   LanguageClient,
@@ -7,23 +7,19 @@ import {
   ServerOptions,
   TransportKind
 } from 'vscode-languageclient/node';
-import { LanguageId } from 'miniscript-languageserver/dist/types';
 
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
   // The server is implemented in node
-  const serverModule = context.asAbsolutePath(
-    path.join('node_modules', 'miniscript-languageserver', 'dist', 'node.js')
-  );
-
+  const serverModule = Uri.joinPath(context.extensionUri, 'node_modules/greybel-languageserver/node.js');
   const serverOptions: ServerOptions = {
     run: {
-      module: serverModule,
+      module: serverModule.fsPath,
       transport: TransportKind.ipc
     },
     debug: {
-      module: serverModule,
+      module: serverModule.fsPath,
       transport: TransportKind.ipc,
       options: {
         execArgv: ['--nolazy', '--inspect=6009']
@@ -32,11 +28,11 @@ export function activate(context: ExtensionContext) {
   };
 
   const clientOptions: LanguageClientOptions = {
-    documentSelector: [{ scheme: 'file', language: LanguageId }],
+    documentSelector: [{ scheme: 'file', language: 'miniscript' }],
     synchronize: {
       fileEvents: workspace.createFileSystemWatcher('**/*')
     },
-    diagnosticCollectionName: LanguageId
+    diagnosticCollectionName: 'miniscript'
   };
 
   client = new LanguageClient(

@@ -18,10 +18,11 @@ const build = async () => {
         target: 'ESNext',
         platform: 'browser',
         treeShaking: true,
+        external: [
+          'vscode',
+          'greybel-languageserver'
+        ],
         plugins: [
-          globalsPlugin({
-            'vscode': 'require(\'vscode\')'
-          }),
           polyfillNode({
             globals: false
           })

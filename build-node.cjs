@@ -17,7 +17,8 @@ const build = async () => {
         platform: 'node',
         treeShaking: true,
         external: [
-          'vscode'
+          'vscode',
+          'greybel-languageserver'
         ]
       });
   } catch (err) {
