@@ -20,3 +20,4 @@ node_modules
 example
 #languageserver
 !node_modules/miniscript-languageserver
+!node_modules/miniscript-languageserver-browser
