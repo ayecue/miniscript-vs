@@ -4,6 +4,8 @@ Toolkit for [MiniScript](https://miniscript.org/). Includes highlighting, code e
 
 Ported over from [greybel-vs](https://github.com/ayecue/greybel-vs).
 
+If you're not a fan of VSCode you can also use the [MiniScript language server](https://github.com/ayecue/miniscript-languageserver).
+
 ## Usage
 
 Automatically detects `.ms` files.

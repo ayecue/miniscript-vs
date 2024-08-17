@@ -8,7 +8,7 @@
     "email": "soerenwehmeier@googlemail.com"
   },
   "icon": "icon.png",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "repository": {
     "type": "git",
     "url": "git@github.com:ayecue/miniscript-vs.git"
@@ -161,10 +161,6 @@
         {
           "command": "miniscript.gotoError",
           "when": "false"
-        },
-        {
-          "command": "miniscript.refresh",
-          "when": "resourceLangId == miniscript"
         }
       ]
     },
@@ -229,10 +225,6 @@
       {
         "command": "miniscript.beautify.write",
         "title": "MiniScript: Beautify"
-      },
-      {
-        "command": "miniscript.refresh",
-        "title": "MiniScript: Refresh"
       },
       {
         "command": "miniscript.debug.debugEditorContents",
@@ -404,13 +396,14 @@
     "greybel-core": "~2.0.4",
     "greybel-interpreter": "~5.0.4",
     "greybel-ms-intrinsics": "~2.0.3",
-    "greybel-transpiler": "~3.0.8",
+    "greybel-transpiler": "~3.0.9",
     "lru-cache": "^7.14.1",
-    "miniscript-meta": "~1.2.3",
+    "miniscript-languageserver-browser": "^1.0.0",
+    "miniscript-languageserver": "^1.1.0",
     "miniscript-textmate": "~0.3.0",
-    "miniscript-type-analyzer": "~0.8.2",
     "text-encoder-lite": "^2.0.0",
-    "unixify": "^1.0.0"
+    "unixify": "^1.0.0",
+    "vscode-languageclient": "^9.0.1"
   },
   "browserslist": "> 0.25%, not dead"
 }

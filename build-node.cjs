@@ -16,6 +16,7 @@ const build = async () => {
         target: 'ESNext',
         platform: 'node',
         treeShaking: true,
+        format: 'cjs',
         external: [
           'vscode'
         ]

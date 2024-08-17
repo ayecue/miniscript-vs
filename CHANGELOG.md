@@ -233,3 +233,9 @@ All notable changes to this project will be documented in this file.
 ## [0.6.3] - 11.08.2024
 
 - fix goto error functionality not working due to latest uri changes
+
+## [0.6.4] - 17.08.2024
+
+- move IntelliSense functionality into miniscript-languageserver
+- fix IntelliSense of web version of extension
+- fix beautify causing misbehaviour when list/map one-liners had comment at end
