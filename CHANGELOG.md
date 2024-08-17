@@ -234,7 +234,7 @@ All notable changes to this project will be documented in this file.
 
 - fix goto error functionality not working due to latest uri changes
 
-## [0.6.4] - 15.08.2024
+## [0.6.4] - 17.08.2024
 
 - move IntelliSense functionality into miniscript-languageserver
 - fix IntelliSense of web version of extension
