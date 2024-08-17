@@ -161,10 +161,6 @@
         {
           "command": "miniscript.gotoError",
           "when": "false"
-        },
-        {
-          "command": "miniscript.refresh",
-          "when": "resourceLangId == miniscript"
         }
       ]
     },
@@ -229,10 +225,6 @@
       {
         "command": "miniscript.beautify.write",
         "title": "MiniScript: Beautify"
-      },
-      {
-        "command": "miniscript.refresh",
-        "title": "MiniScript: Refresh"
       },
       {
         "command": "miniscript.debug.debugEditorContents",
