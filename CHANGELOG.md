@@ -237,3 +237,5 @@ All notable changes to this project will be documented in this file.
 ## [0.6.4] - 15.08.2024
 
 - move IntelliSense functionality into miniscript-languageserver
+- fix IntelliSense of web version of extension
+- fix beautify causing misbehaviour when list/map one-liners had comment at end
