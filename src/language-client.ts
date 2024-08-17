@@ -30,6 +30,7 @@ export function activate(context: ExtensionContext) {
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: 'file', language: 'miniscript' }],
     synchronize: {
+      configurationSection: 'miniscript',
       fileEvents: workspace.createFileSystemWatcher('**/*')
     },
     diagnosticCollectionName: 'miniscript'

@@ -19,6 +19,7 @@ function createClient(context: ExtensionContext, worker: Worker) {
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: 'file', language: 'miniscript' }],
     synchronize: {
+      configurationSection: 'miniscript',
       fileEvents: workspace.createFileSystemWatcher('**/*')
     },
     diagnosticCollectionName: 'miniscript'
