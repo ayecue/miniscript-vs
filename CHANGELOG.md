@@ -248,3 +248,7 @@ All notable changes to this project will be documented in this file.
 ## [0.6.6] - 19.08.2024
 
 - reduce lsp document manager tick frequency
+
+## [0.6.7] - 19.08.2024
+
+- properly handle missing files in ls
