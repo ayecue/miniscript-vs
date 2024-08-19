@@ -8,7 +8,7 @@
     "email": "soerenwehmeier@googlemail.com"
   },
   "icon": "icon.png",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "repository": {
     "type": "git",
     "url": "git@github.com:ayecue/miniscript-vs.git"
@@ -398,8 +398,8 @@
     "greybel-ms-intrinsics": "~2.0.4",
     "greybel-transpiler": "~3.0.9",
     "lru-cache": "^7.14.1",
-    "miniscript-languageserver-browser": "^1.0.1",
-    "miniscript-languageserver": "^1.1.1",
+    "miniscript-languageserver-browser": "^1.0.2",
+    "miniscript-languageserver": "^1.1.2",
     "miniscript-textmate": "~0.3.0",
     "text-encoder-lite": "^2.0.0",
     "unixify": "^1.0.0",
