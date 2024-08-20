@@ -252,3 +252,7 @@ All notable changes to this project will be documented in this file.
 ## [0.6.7] - 19.08.2024
 
 - properly handle missing files in ls
+
+## [0.6.8] - 20.08.2024
+
+- fix handling textDocument/documentSymbol failed error in ls, which was caused when there was invalid syntax at some point
