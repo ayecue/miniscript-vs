@@ -256,3 +256,7 @@ All notable changes to this project will be documented in this file.
 ## [0.6.8] - 20.08.2024
 
 - fix handling textDocument/documentSymbol failed error in ls, which was caused when there was invalid syntax at some point
+
+## [0.6.9] - 31.08.2024
+
+- fix tooltip formatting logic which could potentially cause "Cannot read properties of null"
