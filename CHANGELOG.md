@@ -260,3 +260,7 @@ All notable changes to this project will be documented in this file.
 ## [0.6.9] - 31.08.2024
 
 - fix tooltip formatting logic which could potentially cause "Cannot read properties of null"
+
+## [0.6.10] - 31.08.2024
+
+- properly handle if workspaces are null which could potentially cause "Cannot read properties of null"
