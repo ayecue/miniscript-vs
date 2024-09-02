@@ -264,3 +264,7 @@ All notable changes to this project will be documented in this file.
 ## [0.6.10] - 31.08.2024
 
 - properly handle if workspaces are null which could potentially cause "Cannot read properties of null"
+
+## [0.6.11] - 02.09.2024
+
+- improve handling of workspaces in extension and lsp

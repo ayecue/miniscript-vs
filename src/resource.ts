@@ -59,6 +59,16 @@ export async function tryToDecode(targetUri: Uri): Promise<string> {
   return '';
 }
 
+const getBasePath = (source: string, target: string) => {
+  const sourceUri = Uri.parse(source);
+  const workspaceFolder = vscode.workspace.getWorkspaceFolder(sourceUri);
+  if (workspaceFolder == null) {
+    console.warn('Workspace folders is not available. Falling back to only relative paths.');
+    return Uri.joinPath(sourceUri, '..');
+  }
+  return target.startsWith('/') ? workspaceFolder.uri : Uri.joinPath(sourceUri, '..');
+};
+
 export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
   getHandler(): TranspilerResourceHandler {
     return {
@@ -66,7 +76,7 @@ export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
         source: string,
         target: string
       ): Promise<string> => {
-        const base = target.startsWith('/') ? vscode.workspace.workspaceFolders[0]?.uri : Uri.joinPath(Uri.parse(source), '..');
+        const base = getBasePath(source, target);
         const uri = Uri.joinPath(base, target);
         const uriAlt = Uri.joinPath(base, `${target}.ms`);
         const result = await tryToGetPath(uri, uriAlt);
@@ -87,7 +97,7 @@ export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
 
 export class InterpreterResourceProvider extends InterpreterResourceHandler {
   async getTargetRelativeTo(source: string, target: string): Promise<string> {
-    const base = target.startsWith('/') ? vscode.workspace.workspaceFolders[0]?.uri : Uri.joinPath(Uri.parse(source), '..');
+    const base = getBasePath(source, target);
     const uri = Uri.joinPath(base, target);
     const uriAlt = Uri.joinPath(base, `${target}.ms`);
     const result = await tryToGetPath(uri, uriAlt);
