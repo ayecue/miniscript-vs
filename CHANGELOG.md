@@ -268,3 +268,7 @@ All notable changes to this project will be documented in this file.
 ## [0.6.11] - 02.09.2024
 
 - improve handling of workspaces in extension and lsp
+
+## [0.6.12] - 02.09.2024
+
+- fix error related to type analyzer that could cause "Cannot read properties of undefined (reading 'start')" in lsp
