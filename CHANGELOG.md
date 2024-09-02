@@ -272,3 +272,9 @@ All notable changes to this project will be documented in this file.
 ## [0.6.12] - 02.09.2024
 
 - fix error related to type analyzer that could cause "Cannot read properties of undefined (reading 'start')" in lsp
+
+## [0.6.13] - 03.09.2024
+
+- fix beautify for parentheses and comments where a comment would be right after closing parenthese
+- fix function argument recovery if invalid syntax was provided in function arguments
+- rather fallback than throw error if leading slash is used but workpace is not available
