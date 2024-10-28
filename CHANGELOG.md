@@ -295,3 +295,7 @@ All notable changes to this project will be documented in this file.
 
 - properly handle values that cannot be iterated through on for loop
 - fix type analyzer failing if slice expression was used after expression - related to [#255](https://github.com/ayecue/greybel-vs/issues/255) - thanks for reporting to [@ide1ta](https://github.com/ide1ta)
+
+## [0.7.3] - 28.10.2024
+
+- add custom types handling in type analyzer - related to [#198](https://github.com/ayecue/greybel-vs/issues/198)
