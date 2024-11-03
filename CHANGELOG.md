@@ -304,3 +304,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.4] - 29.10.2024
 
 - improve type resolve performance
+
+## [0.7.5] - 03.11.2024
+
+- improve type document merger performance
