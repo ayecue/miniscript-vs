@@ -33,7 +33,12 @@ export function activate(context: ExtensionContext) {
       configurationSection: 'miniscript',
       fileEvents: workspace.createFileSystemWatcher('**/*')
     },
-    diagnosticCollectionName: 'miniscript'
+    diagnosticCollectionName: 'miniscript',
+    middleware: {
+      provideDocumentSemanticTokens: () => {
+        return undefined;
+      }
+    }
   };
 
   client = new LanguageClient(
