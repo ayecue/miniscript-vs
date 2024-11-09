@@ -22,7 +22,12 @@ function createClient(context: ExtensionContext, worker: Worker) {
       configurationSection: 'miniscript',
       fileEvents: workspace.createFileSystemWatcher('**/*')
     },
-    diagnosticCollectionName: 'miniscript'
+    diagnosticCollectionName: 'miniscript',
+    middleware: {
+      provideDocumentSemanticTokens: () => {
+        return undefined;
+      }
+    }
   };
   const client = new LanguageClient(
     'miniscript-language-server',
