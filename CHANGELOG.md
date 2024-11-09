@@ -318,3 +318,4 @@ All notable changes to this project will be documented in this file.
 ## [0.7.7] - 09.11.2024
 
 - improve definition provider
+- fix hover cache issue which resulted in tooltips not showing up
