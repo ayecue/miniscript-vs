@@ -324,3 +324,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.8] - 10.11.2024
 
 - properly handle cyclic isa defintions in type analyzer
+
+## [0.7.9] - 10.11.2024
+
+- include all custom type definitions of entities with multiple types
