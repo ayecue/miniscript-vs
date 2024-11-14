@@ -1,35 +1,32 @@
 # miniscript-vs
 
-Toolkit for [MiniScript](https://miniscript.org/). Includes highlighting, code execution, bundling and minifying among other features. Check out the [changelog](https://github.com/ayecue/miniscript-vs/blob/main/CHANGELOG.md) to get information about the latest changes.
+A toolkit for [MiniScript](https://miniscript.org/) that provides features like syntax highlighting, code execution, bundling, and minification. For the latest changes, check the [changelog](https://github.com/ayecue/miniscript-vs/blob/main/CHANGELOG.md).
 
-Ported over from [greybel-vs](https://github.com/ayecue/greybel-vs).
-
-If you're not a fan of VSCode you can also use the [MiniScript language server](https://github.com/ayecue/miniscript-languageserver).
+**Prefer a different editor?** The [MiniScript language server](https://github.com/ayecue/miniscript-languageserver/blob/main/packages/node/README.md) is also available and works with IDEs like Sublime Text, IntelliJ, nvim, and more. Setup examples are included in the repository.
 
 ## Usage
 
-Automatically detects `.ms` files.
+The plugin automatically detects `.ms` files.
 
-Commands available (`CTRL+SHIFT+P`):
+Available commands (`CTRL+SHIFT+P`):
 - `MiniScript: Build` - [info](#build)
 - `MiniScript: Refresh` - [info](#refresh)
 
-You can also access most of the commands via the context menu.
+You can also access most commands from the context menu.
 
-Do not forget to set up your plugin to your needs. The following settings are available:
-
-- Activate/Deactivate
-    - Autocomplete
-    - Hoverdocs
-- Transpiler specific
-    - Build type
-    - Disable literals optimization
-    - Disable namespaces optimization
-    - Environment variables
-    - Excluded namespaces when optimizing
-    - Obfuscation
-- Interpreter specific
-    - Environment variables
+### Plugin Settings:
+- **Activate/Deactivate**
+  - Autocomplete
+  - Hoverdocs
+- **Transpiler Settings:**
+  - Build type
+  - Disable literals optimization
+  - Disable namespaces optimization
+  - Environment variables
+  - Excluded namespaces for optimization
+  - Obfuscation
+- **Interpreter Settings:**
+  - Environment variables
 
 ## Features
 
@@ -41,11 +38,6 @@ Do not forget to set up your plugin to your needs. The following settings are av
 - [Comment Docs](#comment-docs)
 - [Goto Error](#goto-error)
 - [Providers](#supporting-providers)
-    - [Autocompletion](#autocompletion-provider)
-    - [Hover Tooltips](#hover-tooltips-provider)
-    - [Diagnostics](#diagnostics-provider)
-    - [Symbol](#symbol-provider)
-    - [Definition](#definition-provider)
 
 ### Build
 
@@ -148,7 +140,7 @@ A REPL is also available while executing the script or having an active breakpoi
 
 ### Comment Docs
 
-Provide signatures for your functions to show better hover tooltips. Additionally, the provided return value will be recognized by the implemented type system and thus result in context-sensitive auto-complete suggestions.
+Provide signatures for your functions to show better hover tooltips. Additionally, the provided return value will be recognized by the implemented type system, resulting in context-sensitive auto-complete suggestions.
 ```js
 // Hello world
 // I am **bold**
@@ -206,26 +198,27 @@ Jumps to the next existing syntax error.
 
 ### Supporting providers
 
-#### Autocompletion Provider
+This extension includes several IntelliSense providers to enhance your coding experience with GreyScript:
 
-Figures out the current context and provides suggestions accordingly.
+- **Autocompletion Provider**  
+  Offers context-aware suggestions based on your current position in the code.
 
-#### Hover Tooltips Provider
+- **Signature Helper Provider**  
+  Displays function signatures with parameter types and return values as you type, helping you use functions correctly and efficiently without needing to reference documentation.
 
-Returns information about functions/types.
+- **Hover Tooltips Provider**  
+  Displays helpful information about functions and types when you hover over them.
 
-#### Diagnostics Provider
+- **Diagnostics Provider**  
+  Identifies and highlights syntax errors in your code for easier debugging.
 
-Returns information about syntax errors in your code.
+- **Symbol Provider**  
+  Lists all symbols available in the active file for easy navigation.  
+  ![Symbol](https://github.com/ayecue/miniscript-vs/blob/main/assets/symbols.png?raw=true "Symbol")
 
-#### Symbol Provider
+- **Definition Provider**  
+  Locates and displays definitions within the active file and its dependencies.  
+  ![Definition](https://github.com/ayecue/miniscript-vs/blob/main/assets/definition-provider.png?raw=true "Definition")
 
-Returns list of all available symbols in the active file.
-
-![Symbol](https://github.com/ayecue/miniscript-vs/blob/main/assets/symbols.png?raw=true "Symbol")
-
-#### Definition Provider
-
-Shows definitions in the currently active file and its dependencies.
-
-![Definition](https://github.com/ayecue/miniscript-vs/blob/main/assets/definition-provider.png?raw=true "Definition")
+- **Color Picker Provider**  
+  Shows a color picker when you use color or mark tags in your code.
