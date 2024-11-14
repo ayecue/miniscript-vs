@@ -331,4 +331,4 @@ All notable changes to this project will be documented in this file.
 
 ## [0.7.10] - 14.11.2024
 
-- update extension readme with introductions for Linux
+- update extension readme
