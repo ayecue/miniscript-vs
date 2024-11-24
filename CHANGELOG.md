@@ -332,3 +332,9 @@ All notable changes to this project will be documented in this file.
 ## [0.7.10] - 14.11.2024
 
 - update extension readme
+
+## [0.7.11] - 16.11.2024
+
+- add check in symbol provider to filter map key values out
+- forbid keywords in uglify namespaces opimization - thanks for reporting to [@linuxgruven](https://github.com/linuxgruven)
+- fix for iteration namespace optimization of __i_idx variables - thanks for reporting to [@linuxgruven](https://github.com/linuxgruven)
