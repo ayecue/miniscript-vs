@@ -338,3 +338,7 @@ All notable changes to this project will be documented in this file.
 - add check in symbol provider to filter map key values out
 - forbid keywords in uglify namespaces opimization - thanks for reporting to [@linuxgruven](https://github.com/linuxgruven)
 - fix for iteration namespace optimization of __i_idx variables - thanks for reporting to [@linuxgruven](https://github.com/linuxgruven)
+
+## [0.7.12] - 24.11.2024
+
+- fix literal optimization for negative numeric values - thanks for reporting to [@linuxgruven](https://github.com/linuxgruven)
