@@ -8,7 +8,7 @@
     "email": "soerenwehmeier@googlemail.com"
   },
   "icon": "icon.png",
-  "version": "0.7.12",
+  "version": "0.7.13",
   "repository": {
     "type": "git",
     "url": "git@github.com:ayecue/miniscript-vs.git"
@@ -244,6 +244,22 @@
     "configuration": {
       "title": "MiniScript VS",
       "properties": {
+        "miniscript.typeAnalyzer.exclude": {
+          "type": "string",
+          "default": "",
+          "description": "Glob pattern to exclude files.",
+          "scope": "resource"
+        },
+        "miniscript.typeAnalyzer.strategy": {
+          "type": "string",
+          "enum": [
+            "Dependency",
+            "Workspace"
+          ],
+          "default": "Dependency",
+          "description": "Strategy that determines which files are used for type resolver.",
+          "scope": "resource"
+        },
         "miniscript.formatter": {
           "type": "boolean",
           "default": true,
@@ -398,8 +414,8 @@
     "greybel-ms-intrinsics": "~2.1.2",
     "greybel-transpiler": "~3.2.7",
     "lru-cache": "^7.14.1",
-    "miniscript-languageserver-browser": "^1.5.2",
-    "miniscript-languageserver": "^1.6.2",
+    "miniscript-languageserver-browser": "^1.6.0",
+    "miniscript-languageserver": "^1.6.0",
     "miniscript-textmate": "~0.3.0",
     "text-encoder-lite": "^2.0.0",
     "unixify": "^1.0.0",
