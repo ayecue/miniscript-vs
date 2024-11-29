@@ -342,3 +342,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.12] - 24.11.2024
 
 - fix literal optimization for negative numeric values - thanks for reporting to [@linuxgruven](https://github.com/linuxgruven)
+
+## [0.7.13] - 28.11.2024
+
+- extend type analyzer with workspace strategy
