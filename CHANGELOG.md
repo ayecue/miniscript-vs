@@ -346,3 +346,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.13] - 28.11.2024
 
 - extend type analyzer with workspace strategy
+
+## [0.7.14] - 01.12.2024
+
+- minor improvement to assumption logic of non existing properties
