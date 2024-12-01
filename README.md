@@ -10,23 +10,31 @@ The plugin automatically detects `.ms` files.
 
 Available commands (`CTRL+SHIFT+P`):
 - `MiniScript: Build` - [info](#build)
-- `MiniScript: Refresh` - [info](#refresh)
 
 You can also access most commands from the context menu.
 
 ### Plugin Settings:
-- **Activate/Deactivate**
-  - Autocomplete
-  - Hoverdocs
+- **Autocomplete**: Activate/Deactivate
+- **Diagnostic**: Activate/Deactivate
+- **Hoverdocs**: Activate/Deactivate
+- **Formatter**: Activate/Deactivate
 - **Transpiler Settings:**
-  - Build type
-  - Disable literals optimization
-  - Disable namespaces optimization
-  - Environment variables
-  - Excluded namespaces for optimization
-  - Obfuscation
+  - **Build Type**: Default, Uglify, Beautify
+  - **Beautify**
+    - **Indentation**: Tab or whitespace. What should be used for indentation?
+    - **Indentation Spaces**: In case whitespace is used this will determine the amount of whitespaces.
+    - **Keep Parentheses**: Will always use parentheses.
+  - **Literals Optimizations**: Activate/Deactivate
+  - **Namespaces Optimizations**: Activate/Deactivate
+  - **Environment Variables**: JSON used to define environment variables (ENVs)
+  - **Excluded Namespaces**: List of namespaces that should not be optimized
+  - **Obfuscation**: Enables minification of namespaces using special characters
 - **Interpreter Settings:**
-  - Environment variables
+  - **Environment Variables**: JSON used to define environment variables (ENVs)
+  - **Silence Error Popups**: Silences error popups due to execution failure
+- **Type Analyzer**
+  - **Strategy**: Specifies which files are used for type resolution. The "Dependency" strategy resolves types from all files imported into the current file. Alternatively, the "Workspace" strategy resolves types from all files within the workspace.
+  - **Exclude**: Specifies files to ignore based on matching glob patterns.
 
 ## Features
 
