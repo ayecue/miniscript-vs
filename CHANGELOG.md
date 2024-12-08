@@ -356,3 +356,8 @@ All notable changes to this project will be documented in this file.
 - remove map and list properties from assignment registry resulting in less noise within the symbol provider
 - include full namespace in symbol provider
 - add new entity kinds to improve visibility of internal intrinsics in auto complete
+
+## [0.7.16] - 07.12.2024
+
+- change type analyzer to only assume on define
+- when merging internal definitions take first entity kind instead of using internal kind
