@@ -175,9 +175,10 @@ export class GreybelDebugSession
     args: ILaunchRequestArguments
   ): Promise<void> {
     const me = this;
+    const uri = Uri.parse(args.program);
 
     me._runtime.debugMode = !args.noDebug;
-    me._runtime.setTarget(args.program);
+    me._runtime.setTarget(uri.toString());
     me._runtime.setDebugger(
       args.noDebug ? new GrebyelPseudoDebugger() : new GrebyelDebugger(me)
     );
@@ -439,7 +440,7 @@ export class GreybelDebugSession
     args: DebugProtocol.SetBreakpointsArguments
   ): Promise<void> {
     const me = this;
-    const uri = Uri.parse(args.source.path);
+    const uri = Uri.file(args.source.path);
     const clientLines = args.lines || [];
 
     const actualBreakpoints0 = clientLines.map((line: number) => {
@@ -471,7 +472,7 @@ export class GreybelDebugSession
     _request?: DebugProtocol.Request
   ): void {
     if (args.source.path) {
-      const uri = Uri.parse(args.source.path);
+      const uri = Uri.file(args.source.path);
       const breakpoints = this.breakpoints.get(uri.toString()) || [];
       const actualBreakpoint = breakpoints.find(
         (bp: DebugProtocol.Breakpoint) => {
