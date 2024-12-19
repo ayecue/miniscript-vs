@@ -368,3 +368,7 @@ All notable changes to this project will be documented in this file.
 - update hashing method in interpreter in favor of lower collision but worse performance
 - fix line registry in parser which could potentially mess up auto complete items within block openers - thanks for reporting to [@ide1ta](https://github.com/ide1ta)
 - improve beautifier transformation in regards of comments within lists and maps
+
+## [0.7.18] - 19.12.2024
+
+- fix parsing of file path for breakpoints in windows - would cause breakpoints not getting triggered - thanks for reporting to foskon
