@@ -379,3 +379,7 @@ All notable changes to this project will be documented in this file.
 - add support to resolve type of for-in iterator
 - add support to resolve type of #import namespace correctly
 - resolve all possible value types if `any` type is existing in index expression
+
+## [0.7.20] - 03.01.2025
+
+- support nested type signatures for maps and lists in property comment docs
