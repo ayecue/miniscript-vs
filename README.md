@@ -4,6 +4,11 @@ A toolkit for [MiniScript](https://miniscript.org/) that provides features like 
 
 **Prefer a different editor?** The [MiniScript language server](https://github.com/ayecue/miniscript-languageserver/blob/main/packages/node/README.md) is also available and works with IDEs like Sublime Text, IntelliJ, nvim, and more. Setup examples are included in the repository.
 
+[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/ayecue.miniscript-vs?style=for-the-badge&label=VS%20Marketplace&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=ayecue.miniscript-vs)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/ayecue.miniscript-vs?style=for-the-badge&logo=microsoft)](https://marketplace.visualstudio.com/items?itemName=ayecue.miniscript-vs)
+[![GitHub Repo stars](https://img.shields.io/github/stars/ayecue/miniscript-vs?style=for-the-badge)](https://github.com/ayecue/miniscript-vs)
+[![License](https://img.shields.io/github/license/ayecue/miniscript-vs?style=for-the-badge)](https://github.com/ayecue/miniscript-vs/blob/master/LICENSE)
+
 ## Usage
 
 The plugin automatically detects `.ms` files.
