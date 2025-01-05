@@ -387,3 +387,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.21] - 04.01.2025
 
 - fix index expression behaviour within statement
+
+## [0.7.22] - 05.01.2025
+
+- fix comment docs not recognising comments in nested functions - thanks for reporting to [@redit0](https://github.com/redit0)
