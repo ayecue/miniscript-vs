@@ -400,3 +400,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.24] - 06.01.2025
 
 - fix invalid line positions of clauses when resolving type
+
+## [0.7.25] - 06.01.2025
+
+- improve type resolve of index expression
