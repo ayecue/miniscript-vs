@@ -9,6 +9,7 @@ import vscode, {
 
 import { showCustomErrorMessage } from './helper/show-custom-error';
 import { miniscriptMeta } from 'miniscript-meta';
+import { parseEnvVars } from './helper/parse-env-vars';
 
 export enum ShareType {
   WRITE = 'write',
@@ -67,9 +68,7 @@ export function activate(context: ExtensionContext) {
         code: editor.document.getText(),
         buildType: specificBuildType || buildType,
         buildOptions,
-        environmentVariables: new Map(
-          Object.entries(environmentVariablesFromConfig)
-        ),
+        environmentVariables: parseEnvVars(environmentVariablesFromConfig),
         obfuscation,
         excludedNamespaces: [
           ...excludedNamespacesFromConfig,

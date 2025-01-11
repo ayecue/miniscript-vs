@@ -404,3 +404,8 @@ All notable changes to this project will be documented in this file.
 ## [0.7.25] - 06.01.2025
 
 - improve type resolve of index expression
+
+## [0.7.26] - 11.01.2025
+
+- fix comment doc parsing swallowing first asterisk - thanks for reporting to [@redit0](https://github.com/redit0)
+- automatically stringify env vars if value is an object - thanks for the suggestion to [@redit0](https://github.com/redit0)

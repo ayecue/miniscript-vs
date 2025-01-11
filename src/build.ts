@@ -8,6 +8,7 @@ import { miniscriptMeta } from 'miniscript-meta';
 import { createParseResult } from './build/create-parse-result';
 import { showCustomErrorMessage } from './helper/show-custom-error';
 import { TranspilerResourceProvider } from './resource';
+import { parseEnvVars } from './helper/parse-env-vars';
 
 export function activate(context: ExtensionContext) {
   async function build(
@@ -58,9 +59,7 @@ export function activate(context: ExtensionContext) {
         resourceHandler: new TranspilerResourceProvider().getHandler(),
         buildType,
         buildOptions,
-        environmentVariables: new Map(
-          Object.entries(environmentVariablesFromConfig)
-        ),
+        environmentVariables: parseEnvVars(environmentVariablesFromConfig),
         obfuscation,
         excludedNamespaces: [
           ...excludedNamespacesFromConfig,
