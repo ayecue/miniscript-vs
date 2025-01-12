@@ -409,3 +409,9 @@ All notable changes to this project will be documented in this file.
 
 - fix comment doc parsing swallowing first asterisk - thanks for reporting to [@redit0](https://github.com/redit0)
 - automatically stringify env vars if value is an object - thanks for the suggestion to [@redit0](https://github.com/redit0)
+
+## [0.7.27] - 12.01.2025
+
+- escape env vars for transpiler - thanks for reporting to [@redit0](https://github.com/redit0)
+- fix documentation description for range - thanks for reporting to Stigma
+- fix beautify transpilation handling of call expressions with arguments that have new lines - thanks for reporting to Stigma
