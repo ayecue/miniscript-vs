@@ -419,3 +419,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.28] - 18.01.2025
 
 - show error when continue or break are used if there is no wrapping iterator block - related to [#289](https://github.com/ayecue/greybel-vs/issues/289) - thanks for reporting to Stigma
+
+## [0.7.29] - 03.02.2025
+
+- update language server to latest version
