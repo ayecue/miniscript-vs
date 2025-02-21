@@ -29,11 +29,12 @@ import { init as initMSIntrinsics } from 'greybel-ms-intrinsics';
 import vscode, { Uri } from 'vscode';
 
 import { showCustomErrorMessage } from '../helper/show-custom-error';
-import { InterpreterResourceProvider, PseudoFS } from '../resource';
+import { InterpreterResourceProvider } from '../resource';
 import { GrebyelDebugger, GrebyelPseudoDebugger } from './debugger';
 import { VSOutputHandler } from './output';
 import { DebugSessionLike } from './types';
 import { parseEnvVars } from '../helper/parse-env-vars';
+import { PseudoFS } from '../helper/fs';
 
 const ansiProvider = new AnotherAnsiProvider(EscapeSequence.Hex);
 
