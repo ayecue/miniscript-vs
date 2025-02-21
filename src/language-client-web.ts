@@ -4,7 +4,7 @@ import {
   LanguageClient,
   LanguageClientOptions
 } from 'vscode-languageclient/browser';
-import { tryToDecode } from './resource';
+import { tryToDecode } from './helper/fs';
 
 let client: LanguageClient;
 

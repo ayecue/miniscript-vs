@@ -19,5 +19,5 @@ assets
 node_modules
 example
 #languageserver
-!node_modules/miniscript-languageserver
-!node_modules/miniscript-languageserver-browser
+!node_modules/miniscript-languageserver/index.js
+!node_modules/miniscript-languageserver-browser/index.js

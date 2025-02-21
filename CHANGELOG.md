@@ -423,3 +423,8 @@ All notable changes to this project will be documented in this file.
 ## [0.7.29] - 03.02.2025
 
 - update language server to latest version
+
+## [0.7.30] - 21.02.2025
+
+- decrease extension size
+- auto resolve file extensions

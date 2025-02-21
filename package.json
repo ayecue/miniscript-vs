@@ -8,7 +8,7 @@
     "email": "soerenwehmeier@googlemail.com"
   },
   "icon": "icon.png",
-  "version": "0.7.29",
+  "version": "0.7.30",
   "repository": {
     "type": "git",
     "url": "git@github.com:ayecue/miniscript-vs.git"
@@ -405,8 +405,8 @@
     ]
   },
   "dependencies": {
-    "@vscode/debugadapter": "^1.51.1",
-    "@vscode/debugprotocol": "^1.51.0",
+    "@vscode/debugadapter": "^1.68.0",
+    "@vscode/debugprotocol": "^1.68.0",
     "another-ansi": "^1.0.2",
     "ansi-escapes": "^4.3.2",
     "greybel-core": "~2.5.2",
@@ -414,8 +414,8 @@
     "greybel-ms-intrinsics": "~2.5.2",
     "greybel-transpiler": "~3.6.3",
     "lru-cache": "^7.14.1",
-    "miniscript-languageserver-browser": "^1.8.6",
-    "miniscript-languageserver": "^1.9.6",
+    "miniscript-languageserver-browser": "^1.9.0",
+    "miniscript-languageserver": "^1.10.0",
     "miniscript-textmate": "~0.3.0",
     "text-encoder-lite": "^2.0.0",
     "unixify": "^1.0.0",
