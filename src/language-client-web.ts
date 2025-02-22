@@ -4,7 +4,7 @@ import {
   LanguageClient,
   LanguageClientOptions
 } from 'vscode-languageclient/browser';
-import { tryToDecode } from './resource';
+import { tryToDecode } from './helper/fs';
 
 let client: LanguageClient;
 
@@ -42,7 +42,7 @@ function createClient(context: ExtensionContext, worker: Worker) {
   client.onRequest('custom/read-file', async (params: string) => {
     const { uri } = JSON.parse(params) as { uri: string };
     const uriInstance = Uri.parse(uri);
-    const fileContent = await tryToDecode(uriInstance);
+    const fileContent = await tryToDecode(uriInstance, true);
     return fileContent;
   });
 

@@ -3,70 +3,14 @@ import {
   ResourceHandler as TranspilerResourceHandler,
   ResourceProvider as TranspilerResourceProviderBase
 } from 'greybel-transpiler';
-import path from 'path';
-// @ts-ignore: No type definitions
-import { TextDecoderLite as TextDecoder } from 'text-encoder-lite';
 import vscode, { Uri } from 'vscode';
+import { DocumentURIBuilder } from './helper/document-manager';
+import { tryToDecode, tryToGet } from './helper/fs';
 
-const fs = vscode.workspace.fs;
-
-export class PseudoFS {
-  static basename(file: string): string {
-    return path.basename(file);
-  }
-
-  static dirname(file: string): string {
-    return path.dirname(file);
-  }
-
-  static resolve(file: string): string {
-    return path.resolve(file);
-  }
-}
-
-export async function tryToGet(
-  targetUri: Uri
-): Promise<Uint8Array | null> {
-  try {
-    return await fs.readFile(targetUri);
-  } catch (err) {
-    console.error(err);
-  }
-
-  return null;
-}
-
-export async function tryToGetPath(
-  targetUri: Uri,
-  altTargetUri: Uri
-): Promise<Uri> {
-  if (await tryToGet(targetUri)) {
-    return targetUri;
-  } else if (await tryToGet(altTargetUri)) {
-    return altTargetUri;
-  }
-  return targetUri;
-}
-
-export async function tryToDecode(targetUri: Uri): Promise<string> {
-  const out = await tryToGet(targetUri);
-
-  if (out) {
-    const content = new TextDecoder().decode(out);
-    return content;
-  }
-
-  return '';
-}
-
-const getBasePath = (source: string, target: string) => {
+const createDocumentUriBuilder = (source: string) => {
   const sourceUri = Uri.parse(source);
   const workspaceFolder = vscode.workspace.getWorkspaceFolder(sourceUri);
-  if (workspaceFolder == null) {
-    console.warn('Workspace folders is not available. Falling back to only relative paths.');
-    return Uri.joinPath(sourceUri, '..');
-  }
-  return target.startsWith('/') ? workspaceFolder.uri : Uri.joinPath(sourceUri, '..');
+  return new DocumentURIBuilder(Uri.joinPath(sourceUri, '..'), workspaceFolder.uri);
 };
 
 export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
@@ -76,17 +20,16 @@ export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
         source: string,
         target: string
       ): Promise<string> => {
-        const base = getBasePath(source, target);
-        const uri = Uri.joinPath(base, target);
-        const uriAlt = Uri.joinPath(base, `${target}.ms`);
-        const result = await tryToGetPath(uri, uriAlt);
+        const documentUriBuilder = createDocumentUriBuilder(source);
+        const result = await documentUriBuilder.getPath(target);
         return result.toString();
       },
       has: async (target: string): Promise<boolean> => {
         return !!(await tryToGet(Uri.parse(target)));
       },
-      get: (target: string): Promise<string> => {
-        return tryToDecode(Uri.parse(target));
+      get: async (target: string): Promise<string> => {
+        const result = await tryToDecode(Uri.parse(target));
+        return result ?? '';
       },
       resolve: (target: string): Promise<string> => {
         return Promise.resolve(Uri.parse(target).toString());
@@ -97,10 +40,8 @@ export class TranspilerResourceProvider extends TranspilerResourceProviderBase {
 
 export class InterpreterResourceProvider extends InterpreterResourceHandler {
   async getTargetRelativeTo(source: string, target: string): Promise<string> {
-    const base = getBasePath(source, target);
-    const uri = Uri.joinPath(base, target);
-    const uriAlt = Uri.joinPath(base, `${target}.ms`);
-    const result = await tryToGetPath(uri, uriAlt);
+    const documentUriBuilder = createDocumentUriBuilder(source);
+    const result = await documentUriBuilder.getPath(target);
     return result.toString();
   }
 
@@ -108,8 +49,9 @@ export class InterpreterResourceProvider extends InterpreterResourceHandler {
     return !!(await tryToGet(Uri.parse(target)));
   }
 
-  get(target: string): Promise<string> {
-    return tryToDecode(Uri.parse(target));
+  async get(target: string): Promise<string> {
+    const result = await tryToDecode(Uri.parse(target));
+    return result ?? '';
   }
 
   resolve(target: string): Promise<string> {
