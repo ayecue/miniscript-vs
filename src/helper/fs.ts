@@ -66,12 +66,12 @@ export async function findExistingPath(
   }
 }
 
-export async function tryToDecode(targetUri: Uri): Promise<string> {
+export async function tryToDecode(targetUri: Uri): Promise<string | null> {
   const out = await tryToGet(targetUri);
 
-  if (out) {
+  if (out != null) {
     return new TextDecoder().decode(out);
   }
 
-  return '';
+  return null;
 }
