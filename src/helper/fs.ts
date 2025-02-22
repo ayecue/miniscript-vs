@@ -66,8 +66,8 @@ export async function findExistingPath(
   }
 }
 
-export async function tryToDecode(targetUri: Uri): Promise<string | null> {
-  const out = await tryToGet(targetUri);
+export async function tryToDecode(targetUri: Uri, unsafe: boolean = false): Promise<string | null> {
+  const out = await tryToGet(targetUri, unsafe);
 
   if (out != null) {
     return new TextDecoder().decode(out);
