@@ -55,6 +55,10 @@ export class DocumentURIBuilder {
     return this.getFromRootPath(path);
   }
 
+  async getPathUseReturnOriginal(path: string): Promise<Uri | null> {
+    return (await this.getPath(path)) ?? this.getOriginalPath(path);
+  }
+
   getPath(path: string): Promise<Uri | null> {
     return findExistingPath(
       this.getOriginalPath(path),
