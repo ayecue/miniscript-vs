@@ -428,3 +428,7 @@ All notable changes to this project will be documented in this file.
 
 - decrease extension size
 - auto resolve file extensions
+
+## [0.7.31] - 23.02.2025
+
+- fixed issue with documentation comments where omitting the return type but including other tags resulted in no type being assigned
