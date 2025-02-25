@@ -436,3 +436,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.32] - 23.02.2025
 
 - fixed behaviour of path resolve if path points to non existing file
+
+## [0.7.33] - 25.02.2025
+
+- fixed issue with documentation comments where @description was still visible after the recent changes
