@@ -440,3 +440,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.33] - 25.02.2025
 
 - fixed issue with documentation comments where @description was still visible after the recent changes
+
+## [0.7.34] - 01.03.2025
+
+- fixed issue with documentation comments where @example was still visible after the recent changes - thanks for reporting to [@redit0](https://github.com/redit0)
