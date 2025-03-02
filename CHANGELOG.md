@@ -448,3 +448,7 @@ All notable changes to this project will be documented in this file.
 ## [0.7.35] - 02.03.2025
 
 - fixed issue with workspace strategy which resulted in errors due to toposort not being able to handle unknown nodes - thanks for reporting to [@Tofferbear](https://github.com/Tofferbear)
+
+## [0.7.36] - 02.03.2025
+
+- enable self and super to be overriden in type analyzer if context is not available
