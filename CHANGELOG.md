@@ -457,3 +457,7 @@ All notable changes to this project will be documented in this file.
 
 - fixed behaviour in interpreter for comparison of functions, should now properly detect if an intrinsics function is the same as the one in the general namespace
 - update to next major meta version
+
+## [0.8.0] - 09.08.2025
+
+- update lsp to latest version of greybel tooling which brings various improvements and features related to type-analyser and performance
