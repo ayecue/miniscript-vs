@@ -171,7 +171,7 @@ export class GreybelDebugSession
     args: ILaunchRequestArguments
   ): Promise<void> {
     const me = this;
-    const uri = Uri.parse(args.program);
+    const uri = Uri.file(args.program);
 
     me._runtime.debugMode = !args.noDebug;
     me._runtime.setTarget(uri.toString());

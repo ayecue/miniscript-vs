@@ -5,6 +5,7 @@ import vscode, {
   ExtensionContext,
   ProviderResult,
   Uri,
+  workspace,
   WorkspaceFolder
 } from 'vscode';
 
@@ -24,12 +25,12 @@ export function activate(
         }
         if (targetResource) {
           vscode.debug.startDebugging(
-            undefined,
+            workspace.getWorkspaceFolder(resource),
             {
               type: 'miniscript',
               name: 'Run File',
               request: 'launch',
-              program: targetResource.toString()
+              program: targetResource.fsPath
             },
             { noDebug: true }
           );
@@ -44,12 +45,15 @@ export function activate(
           targetResource = vscode.window.activeTextEditor.document.uri;
         }
         if (targetResource) {
-          vscode.debug.startDebugging(undefined, {
-            type: 'miniscript',
-            name: 'Debug File',
-            request: 'launch',
-            program: targetResource.toString()
-          });
+          vscode.debug.startDebugging(
+            workspace.getWorkspaceFolder(resource),
+            {
+              type: 'miniscript',
+              name: 'Debug File',
+              request: 'launch',
+              program: targetResource.fsPath
+            }
+          );
         }
       }
     )
