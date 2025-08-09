@@ -461,3 +461,8 @@ All notable changes to this project will be documented in this file.
 ## [0.8.0] - 09.08.2025
 
 - update lsp to latest version of greybel tooling which brings various improvements and features related to type-analyser and performance
+
+## [0.8.1] - 10.08.2025
+
+- JSDoc arguments aren't applied anymore by position but rather by their name (related to type analyser)
+- fix language server crash on invalid syntax in assignment statement (related to type analyser)
