@@ -466,3 +466,8 @@ All notable changes to this project will be documented in this file.
 
 - JSDoc arguments aren't applied anymore by position but rather by their name (related to type analyser)
 - fix language server crash on invalid syntax in assignment statement (related to type analyser)
+
+## [0.8.2] - 10.08.2025
+
+- allow duplicate class names, properties will be merged if there are any duplicates (related to type analyser)
+- fix language server crash on path generation when components are not matching assumed usage (related to type analyser)
