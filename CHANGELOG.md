@@ -480,3 +480,4 @@ All notable changes to this project will be documented in this file.
 
 - improve binary expression type infer (related to type analyser)
 - improve for loop iterator type infer (related to type analyser)
+- fix textmate pseudo-type syntax
