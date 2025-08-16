@@ -481,3 +481,7 @@ All notable changes to this project will be documented in this file.
 - improve binary expression type infer (related to type analyser)
 - improve for loop iterator type infer (related to type analyser)
 - fix textmate pseudo-type syntax
+
+## [0.8.5] - 16.08.2025
+
+- add virtual types - related to type analyser
