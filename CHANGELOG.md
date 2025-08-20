@@ -486,7 +486,7 @@ All notable changes to this project will be documented in this file.
 
 - add virtual types - related to type analyser
 
-## [0.8.6] - 16.08.2025
+## [0.8.6] - 20.08.2025
 
 - improve transpiler to use 1/0 instead of true/false constant if using default/uglify mode
 - fix type analyser exception on cyclic dependencies - related to [#359](https://github.com/ayecue/greybel-vs/issues/359) - thanks for reporting to [@dukeofsussex](https://github.com/dukeofsussex)
